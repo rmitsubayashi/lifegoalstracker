@@ -2,8 +2,8 @@ package com.lifegoaltracker.views.visionDetails.viewmodel
 
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
-import com.lifegoaltracker.model.goal.sort.GoalSortByDueDate
-import com.lifegoaltracker.model.goal.sort.GoalSortBySpan
+import com.lifegoaltracker.utils.sort.goal.GoalSortByDueDate
+import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 import com.lifegoaltracker.model.vision.Vision
 
 class VisionDetailsRecyclerViewList {

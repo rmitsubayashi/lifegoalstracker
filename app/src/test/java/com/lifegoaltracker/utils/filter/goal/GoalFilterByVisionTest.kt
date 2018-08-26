@@ -1,4 +1,4 @@
-package com.lifegoaltracker.model.goal.filter
+package com.lifegoaltracker.utils.filter.goal
 
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.GoalProperties
@@ -11,11 +11,13 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
+import com.lifegoaltracker.utils.filter.IFilter
+import com.lifegoaltracker.utils.filter.goal.GoalFilterByVision
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GoalFilterByVisionTest {
-    private lateinit var filter: GoalFilter
+    private lateinit var filter: IFilter<Goal>
 
     @Test
     fun filter_filterable_shouldFilter(){

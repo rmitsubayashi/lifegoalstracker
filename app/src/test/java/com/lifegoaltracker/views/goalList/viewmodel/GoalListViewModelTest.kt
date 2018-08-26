@@ -14,7 +14,6 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
-import com.lifegoaltracker.model.goal.filter.GoalFilterByVision
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID

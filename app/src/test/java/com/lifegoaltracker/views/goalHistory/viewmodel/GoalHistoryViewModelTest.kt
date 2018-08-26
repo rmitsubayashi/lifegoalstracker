@@ -14,12 +14,10 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
-import com.lifegoaltracker.model.goal.filter.GoalFilterByVision
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
-import com.lifegoaltracker.views.goalHistory.viewmodel.GoalHistoryViewModel
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule

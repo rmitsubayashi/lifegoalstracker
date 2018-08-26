@@ -1,4 +1,4 @@
-package com.lifegoaltracker.model.goal.sort
+package com.lifegoaltracker.utils.sort.goal
 
 import com.lifegoaltracker.model.goal.Goal
 

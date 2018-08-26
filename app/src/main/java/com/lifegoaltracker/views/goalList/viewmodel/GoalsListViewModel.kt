@@ -5,12 +5,12 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.lifegoaltracker.model.goal.Goal
-import com.lifegoaltracker.model.goal.filter.GoalFilter
-import com.lifegoaltracker.model.goal.filter.GoalFilterByVision
+import com.lifegoaltracker.utils.filter.goal.GoalFilterByVision
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
+import com.lifegoaltracker.utils.filter.IFilter
 import com.lifegoaltracker.views.goalList.GoalListLiveDataHelper
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class GoalListViewModel
     : ViewModel() {
     private val goalList: MutableLiveData<List<Goal>> = MutableLiveData()
     private val visionNames: MutableLiveData<List<VisionName>> = MutableLiveData()
-    private val currentFilter: MutableLiveData<GoalFilter> = MutableLiveData()
+    private val currentFilter: MutableLiveData<IFilter<Goal>> = MutableLiveData()
     private val recyclerViewItems: MediatorLiveData<List<GoalListRecyclerViewItem>> = MediatorLiveData()
 
     fun fetchGoalList() : LiveData<List<GoalListRecyclerViewItem>> {
@@ -57,7 +57,7 @@ class GoalListViewModel
 
     private fun applyFilter() : List<Goal>?{
         val toFilter : List<Goal>? = goalList.value
-        val filter : GoalFilter? = currentFilter.value
+        val filter : IFilter<Goal>? = currentFilter.value
 
         if (toFilter == null){
             return null

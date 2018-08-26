@@ -1,4 +1,4 @@
-package com.lifegoaltracker.model.goal.sort
+package com.lifegoaltracker.utils.sort.goal
 
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.GoalProperties
@@ -12,7 +12,6 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 class GoalSortByDueDateTest {

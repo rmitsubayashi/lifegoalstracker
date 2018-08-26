@@ -28,8 +28,17 @@ class AddEditVisionViewModel
     val inputErrorMessage =
             _inputErrorMessage as LiveData<String>
 
-    fun editVision(vision: Vision){
-        repository.editVision(vision)
+    private var currentlySetVision: Vision? = null
+
+    fun setCurrentVision(vision: Vision){
+        _visionTitleInput.value = vision.userFields.title
+        _visionDescriptionInput.value = vision.userFields.description
+        _visionReasonInput.value = vision.userFields.reason
+        _visionPriorityToggle.value = PriorityConverter().getBoolean(
+                vision.userFields.priority
+        )
+
+        currentlySetVision = vision.copy()
     }
 
     fun addVision(){
@@ -45,12 +54,38 @@ class AddEditVisionViewModel
                 //low priority is less obtrusive to the user than high priority
                 priority ?: Priority.LOW
         )
-        val vision = Vision(
-                ID(null),
-                visionUserFields,
-                VisionProperties(dateGenerator.getCurrentTimestamp()),
-                VisionStatus(false)
-        )
-        repository.addVision(vision)
+        currentlySetVision?.let {
+            val editedVision = Vision(
+                    it.id.copy(),
+                    visionUserFields,
+                    VisionProperties(dateGenerator.getCurrentTimestamp()),
+                    it.status.copy()
+                    )
+            repository.editVision(editedVision)
+        } ?: run {
+            val newVision = Vision(
+                    ID(null),
+                    visionUserFields,
+                    VisionProperties(dateGenerator.getCurrentTimestamp()),
+                    VisionStatus(false)
+            )
+            repository.addVision(newVision)
+        }
+    }
+
+    fun setVisionTitle(inputText: String){
+        _visionTitleInput.value = inputText
+    }
+
+    fun setVisionDescription(inputText: String){
+        _visionDescriptionInput.value = inputText
+    }
+
+    fun setVisionReason(inputText: String){
+        _visionReasonInput.value = inputText
+    }
+
+    fun toggleVisionPriority(toggle: Boolean){
+        _visionPriorityToggle.value = toggle
     }
 }

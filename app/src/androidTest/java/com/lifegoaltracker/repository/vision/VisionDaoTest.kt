@@ -61,7 +61,7 @@ class VisionDaoTest {
 
     @Test
     fun query_exists_shouldReturn(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.queryVisions().observeForever(observerVisions)
@@ -76,7 +76,7 @@ class VisionDaoTest {
 
     @Test
     fun queryVisionNames_shouldReturnVisionName(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.queryVisionNames().observeForever(observerVisionName)
@@ -86,7 +86,7 @@ class VisionDaoTest {
 
     @Test
     fun querySpecificVision_exists_shouldReturn(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.queryVision(ID(1)).observeForever(observerVision)
@@ -95,7 +95,7 @@ class VisionDaoTest {
 
     @Test
     fun querySpecificVision_doesNotExist_shouldReturnNull(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.queryVision(ID(0)).observeForever(observerVision)
@@ -104,7 +104,7 @@ class VisionDaoTest {
 
     @Test
     fun insert_nullableFields_shouldReturnNullFields(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.queryVision(ID(1)).observeForever(observerVision)
@@ -113,7 +113,7 @@ class VisionDaoTest {
 
     @Test
     fun remove_canRemove_remove(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         visionDao.remove(vision1)
@@ -123,7 +123,7 @@ class VisionDaoTest {
 
     @Test
     fun remove_hasGoal_removesGoal(){
-        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason"),
+        val vision1 = Vision(ID(1), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         visionDao.postVision(vision1)
         val goal1 = Goal(ID(0),

@@ -15,10 +15,7 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
-import com.lifegoaltracker.model.vision.Vision
-import com.lifegoaltracker.model.vision.VisionProperties
-import com.lifegoaltracker.model.vision.VisionStatus
-import com.lifegoaltracker.model.vision.VisionUserFields
+import com.lifegoaltracker.model.vision.*
 import com.lifegoaltracker.repository.Database
 import com.lifegoaltracker.repository.ID
 import org.junit.After
@@ -53,7 +50,7 @@ class GoalDaoTest {
         //since goals are linked to the vision by foreign key constraint,
         // we need a vision that the goals are linked to
         //(goals can't exist without a corresponding vision)
-        val vision = Vision(ID(0), VisionUserFields("title","desc","reason"),
+        val vision = Vision(ID(0), VisionUserFields("title","desc","reason", Priority.LOW),
                 VisionProperties(0), VisionStatus())
         database.visionDao().postVision(vision)
     }

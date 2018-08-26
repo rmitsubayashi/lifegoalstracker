@@ -34,7 +34,7 @@ jacoco {
     reportsDir = file("$buildDir/reports/jacoco")
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest","createDebugCoverageReport"]) {
     group = "Reporting"
     description = "Generate Jacoco coverage reports for Debug build"
 

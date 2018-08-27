@@ -40,6 +40,9 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
     private val goalReasonInput: MutableLiveData<String> = MutableLiveData()
 
     private val inputErrorMessage: MutableLiveData<String> = MutableLiveData()
+
+    private var allVisionNames: List<VisionName>? = null
+    private var currentlySetGoal: Goal? = null
     
     init {
         val dropdownItems = AddEditGoalDropdownItems()
@@ -90,8 +93,17 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
         toggleGoalSpanSelection(GoalSpanConverter().getString(goal.userFields.dueDate.span)!!)
 
         //since we only hav a reference to the vision ID,
-        // we need to wait until we get all the user's vision names
-        // to be able to display this
+        // we need to wait until we get all the user's vision names.
+        allVisionNames?.let{
+            for (visionName in it){
+                if (goal.properties.visionID == visionName.id){
+                    visionPicker.value?.selectItem(visionName.title)
+                    return
+                }
+            }
+        } //if vision names aren't loaded yet, set when we load it
+
+        currentlySetGoal = goal.copy()
     }
 
     fun addGoal(){
@@ -124,7 +136,7 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
         goalRepository.updateGoal(goal)
     }
 
-    fun fetchVisionPicker(): LiveData<SpinnerItems>{
+    fun fetchVisionNamePicker(): LiveData<SpinnerItems>{
         val visionNames = visionRepository.getVisionNames()
         visionPicker.addSource(visionNames){
             names -> names?.let{setVisionNames(names)}
@@ -133,7 +145,22 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
     }
 
     private fun setVisionNames(visionNames: List<VisionName>){
-        //visionPicker.addSource()
+        allVisionNames = visionNames.toList()
+        val visionNameStrings = mutableListOf<String>()
+        for (visionName in visionNames){
+            visionNameStrings.add(visionName.title)
+        }
+
+        var defaultValue = visionNameStrings[0]
+        currentlySetGoal?.let{
+            for (visionName in visionNames){
+                if (it.properties.visionID == visionName.id){
+                    defaultValue = visionName.title
+                    break
+                }
+            }
+        }
+        visionPicker.value?.setList(visionNameStrings, defaultValue)
     }
 
     fun getGoalSpanSelection(): LiveData<SpinnerItems> {

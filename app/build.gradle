@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'jacoco'
 
+apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -79,7 +81,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest","creat
 buildscript {
     ext.arch_version = "1.1.1"
     ext.core_testing_version = '1.0.0'
-    ext.dagger_version = "2.13"
+    ext.dagger_version = "2.15"
     ext.mockito_version = "2.11.0"
 }
 
@@ -102,7 +104,7 @@ dependencies {
     androidTestImplementation "android.arch.core:core-testing:$core_testing_version"
     androidTestImplementation "com.android.support.test:runner:1.0.2"
 
-    //Dagger2
+    //DI
     implementation "com.google.dagger:dagger-android:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
@@ -111,4 +113,8 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$arch_version"
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
+
+    //Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 }

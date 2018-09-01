@@ -1,4 +1,6 @@
 package com.lifegoaltracker.views.goalHistory.view
 
-class GoalHistoryFragment {
+import android.support.v4.app.Fragment
+
+class GoalHistoryFragment: Fragment() {
 }

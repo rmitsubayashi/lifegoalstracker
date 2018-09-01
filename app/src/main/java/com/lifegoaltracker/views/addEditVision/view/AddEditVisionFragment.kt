@@ -1,4 +1,6 @@
 package com.lifegoaltracker.views.addEditVision.view
 
-class AddEditVisionFragment {
+import android.support.v4.app.Fragment
+
+class AddEditVisionFragment: Fragment() {
 }

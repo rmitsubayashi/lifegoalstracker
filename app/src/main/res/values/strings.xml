@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">LifeGoalTracker</string>
+
+    <string name="vision_details_reason_title">Why?</string>
+    <string name="vision_details_goal_subheader_one_month">This month I will&#8320;</string>
+    <string name="vision_add">New Vision</string>
+    <string name="add_edit_vision_title">Vision</string>
+    <string name="add_edit_vision_description">Description</string>
+    <string name="add_edit_vision_reason">Why?</string>
+    <string name="add_edit_vision_priority">Major goal?</string>
+    <string name="add_edit_vision_submit">Create</string>
+    <string name="add_edit_goal_title">Goal</string>
+    <string name="add_edit_goal_vision">Vision</string>
+    <string name="add_edit_goal_span">Goal Span</string>
+    <string name="add_edit_goal_due_date">Due Date</string>
+    <string name="add_edit_goal_due_date_year">Year</string>
+    <string name="add_edit_goal_due_date_month">Month</string>
+    <string name="add_edit_goal_due_date_week">Week</string>
+    <string name="add_edit_goal_submit">Create</string>
 </resources>

@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/nav_graph">
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/visionsFragment">
 
+    <fragment
+        android:id="@+id/goalListFragment"
+        android:name="com.lifegoaltracker.views.goalList.view.GoalListFragment"
+        android:label="GoalListFragment">
+        <action
+            android:id="@+id/action_goalListFragment_to_addEditGoalFragment"
+            app:destination="@id/addEditGoalFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addEditGoalFragment"
+        android:name="com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment"
+        android:label="AddEditGoalFragment"/>
+    <fragment
+        android:id="@+id/visionsFragment"
+        android:name="com.lifegoaltracker.views.visions.view.VisionsFragment"
+        android:label="VisionsFragment">
+        <action
+            android:id="@+id/action_visionsFragment_to_visionDetailsFragment"
+            app:destination="@id/visionDetailsFragment"/>
+        <action
+            android:id="@+id/action_visionsFragment_to_addEditVisionFragment"
+            app:destination="@id/addEditVisionFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/visionDetailsFragment"
+        android:name="com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment"
+        android:label="VisionDetailsFragment"/>
+    <fragment
+        android:id="@+id/addEditVisionFragment"
+        android:name="com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment"
+        android:label="AddEditVisionFragment"/>
+    <fragment
+        android:id="@+id/goalHistoryFragment"
+        android:name="com.lifegoaltracker.views.goalHistory.view.GoalHistoryFragment"
+        android:label="GoalHistoryFragment"/>
 </navigation>

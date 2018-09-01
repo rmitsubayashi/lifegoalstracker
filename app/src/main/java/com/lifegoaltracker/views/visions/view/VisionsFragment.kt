@@ -1,4 +1,6 @@
 package com.lifegoaltracker.views.visions.view
 
-class VisionsFragment {
+import android.support.v4.app.Fragment
+
+class VisionsFragment: Fragment() {
 }

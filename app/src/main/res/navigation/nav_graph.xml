@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
             app:startDestination="@id/visionsFragment">
 
     <fragment
         android:id="@+id/goalListFragment"
         android:name="com.lifegoaltracker.views.goalList.view.GoalListFragment"
-        android:label="GoalListFragment">
+        android:label="GoalListFragment"
+        tools:layout="@layout/fragment_goal_list">
         <action
             android:id="@+id/action_goalListFragment_to_addEditGoalFragment"
             app:destination="@id/addEditGoalFragment"/>
@@ -15,11 +17,13 @@
     <fragment
         android:id="@+id/addEditGoalFragment"
         android:name="com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment"
-        android:label="AddEditGoalFragment"/>
+        android:label="AddEditGoalFragment"
+        tools:layout="@layout/fragment_add_edit_goal"/>
     <fragment
         android:id="@+id/visionsFragment"
         android:name="com.lifegoaltracker.views.visions.view.VisionsFragment"
-        android:label="VisionsFragment">
+        android:label="VisionsFragment"
+        tools:layout="@layout/fragment_visions">
         <action
             android:id="@+id/action_visionsFragment_to_visionDetailsFragment"
             app:destination="@id/visionDetailsFragment"/>
@@ -30,13 +34,16 @@
     <fragment
         android:id="@+id/visionDetailsFragment"
         android:name="com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment"
-        android:label="VisionDetailsFragment"/>
+        android:label="VisionDetailsFragment"
+        tools:layout="@layout/fragment_vision_details"/>
     <fragment
         android:id="@+id/addEditVisionFragment"
         android:name="com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment"
-        android:label="AddEditVisionFragment"/>
+        android:label="AddEditVisionFragment"
+        tools:layout="@layout/fragment_add_edit_vision"/>
     <fragment
         android:id="@+id/goalHistoryFragment"
         android:name="com.lifegoaltracker.views.goalHistory.view.GoalHistoryFragment"
-        android:label="GoalHistoryFragment"/>
+        android:label="GoalHistoryFragment"
+        tools:layout="@layout/fragment_goal_history"/>
 </navigation>

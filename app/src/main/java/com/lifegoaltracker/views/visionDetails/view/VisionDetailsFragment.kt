@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.lifegoaltracker.R
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.GoalProperties
@@ -77,6 +79,10 @@ class VisionDetailsFragment: Fragment() {
         )
         view.recyclerview_vision_details.adapter = adapter
         view.recyclerview_vision_details.layoutManager = LinearLayoutManager(context)
+
+        view.fab_vision_details.setOnClickListener{
+            it.findNavController().navigate(R.id.action_visionDetailsFragment_to_addEditGoalFragment)
+        }
 
         return view
     }

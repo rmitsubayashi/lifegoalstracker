@@ -35,7 +35,11 @@
         android:id="@+id/visionDetailsFragment"
         android:name="com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment"
         android:label="VisionDetailsFragment"
-        tools:layout="@layout/fragment_vision_details"/>
+        tools:layout="@layout/fragment_vision_details">
+        <action
+            android:id="@+id/action_visionDetailsFragment_to_addEditGoalFragment"
+            app:destination="@id/addEditGoalFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/addEditVisionFragment"
         android:name="com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment"

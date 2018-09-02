@@ -7,6 +7,7 @@ import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 import com.lifegoaltracker.model.vision.Vision
 import com.lifegoaltracker.repository.ID
+import java.io.Serializable
 
 @Entity(tableName = "goal",
         foreignKeys = [ForeignKey(  entity = Vision::class,
@@ -25,4 +26,4 @@ data class Goal (
         val properties: GoalProperties,
         @Embedded
         val status: GoalStatus
-)
+): Serializable

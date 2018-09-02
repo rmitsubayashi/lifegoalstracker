@@ -4,6 +4,7 @@ import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.lifegoaltracker.repository.ID
+import java.io.Serializable
 
 @Entity(tableName = "vision")
 data class Vision (
@@ -15,4 +16,4 @@ data class Vision (
         val properties: VisionProperties,
         @Embedded
         val status: VisionStatus
-)
+): Serializable

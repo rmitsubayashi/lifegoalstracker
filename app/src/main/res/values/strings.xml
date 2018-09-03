@@ -19,4 +19,8 @@
     <string name="add_edit_goal_submit">Create</string>
 
     <string name="error_message">Something went wrong</string>
+
+    <string name="menu_visions">Visions</string>
+    <string name="menu_goals">Goals</string>
+    <string name="menu_goal_history">History</string>
 </resources>

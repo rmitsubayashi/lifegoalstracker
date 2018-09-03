@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/visionsFragment"
+        android:title="@string/menu_visions"/>
+    <item
+        android:id="@+id/goalListFragment"
+        android:title="@string/menu_goals"/>
+    <item
+        android:id="@+id/goalHistoryFragment"
+        android:title="@string/menu_goal_history"/>
+</menu>

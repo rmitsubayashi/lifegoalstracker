@@ -17,6 +17,7 @@
     <string name="add_edit_goal_due_date_month">Month</string>
     <string name="add_edit_goal_due_date_week">Week</string>
     <string name="add_edit_goal_submit">Create</string>
+    <string name="goal_list_empty">You currently have no goals :(</string>
 
     <string name="error_message">Something went wrong</string>
 

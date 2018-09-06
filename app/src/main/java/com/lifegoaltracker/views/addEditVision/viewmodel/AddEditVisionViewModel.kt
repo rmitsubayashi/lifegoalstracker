@@ -13,17 +13,7 @@ import javax.inject.Inject
 class AddEditVisionViewModel
 @Inject constructor(private val repository: VisionRepository,
                     private val dateGenerator: DateGenerator): ViewModel() {
-    private val _visionTitleInput = MutableLiveData<String>()
-    val visionTitleInput =
-            _visionTitleInput as LiveData<String>
-    private val _visionDescriptionInput = MutableLiveData<String>()
-    val visionDescriptionInput =
-            _visionDescriptionInput as LiveData<String>
-    private val _visionReasonInput = MutableLiveData<String>()
-    val visionReasonInput = _visionReasonInput as LiveData<String>
-    private val _visionPriorityToggle = MutableLiveData<Boolean>()
-    val visionPriorityToggle =
-            _visionPriorityToggle as LiveData<Boolean>
+    private val viewState = MutableLiveData<AddEditVisionViewState>()
     private val _inputErrorMessage = MutableLiveData<String>()
     val inputErrorMessage =
             _inputErrorMessage as LiveData<String>
@@ -31,26 +21,30 @@ class AddEditVisionViewModel
     private var currentlySetVision: Vision? = null
 
     fun setCurrentVision(vision: Vision){
-        _visionTitleInput.value = vision.userFields.title
-        _visionDescriptionInput.value = vision.userFields.description
-        _visionReasonInput.value = vision.userFields.reason
-        _visionPriorityToggle.value = PriorityConverter().getBoolean(
-                vision.userFields.priority
+        viewState.value = AddEditVisionViewState(
+                vision.userFields.title,
+                vision.userFields.description,
+                vision.userFields.reason,
+                PriorityConverter().getBoolean(
+                        vision.userFields.priority
+                )
         )
 
         currentlySetVision = vision.copy()
     }
 
     fun addVision(){
-        if (_visionTitleInput.value == null){
+        val currentViewState = viewState.value
+
+        if (currentViewState?.visionTitleInput == null){
             _inputErrorMessage.value = "タイトルを入力してください"
             return
         }
-        val priority = PriorityConverter().getPriority(_visionPriorityToggle.value)
+        val priority = PriorityConverter().getPriority(currentViewState.visionPriorityToggle)
         val visionUserFields = VisionUserFields(
-                _visionTitleInput.value!!,
-                _visionDescriptionInput.value,
-                _visionReasonInput.value,
+                currentViewState.visionTitleInput,
+                currentViewState.visionDescriptionInput,
+                currentViewState.visionReasonInput,
                 //low priority is less obtrusive to the user than high priority
                 priority ?: Priority.LOW
         )
@@ -73,19 +67,33 @@ class AddEditVisionViewModel
         }
     }
 
+    fun getViewState(): LiveData<AddEditVisionViewState>{
+        if (viewState.value == null){
+            viewState.value = AddEditVisionViewState()
+        }
+        return viewState
+    }
+
     fun setVisionTitle(inputText: String){
-        _visionTitleInput.value = inputText
+        viewState.value = viewState.value?.copy(visionTitleInput = inputText)
     }
 
     fun setVisionDescription(inputText: String){
-        _visionDescriptionInput.value = inputText
+        viewState.value = viewState.value?.copy(visionDescriptionInput = inputText)
     }
 
     fun setVisionReason(inputText: String){
-        _visionReasonInput.value = inputText
+        viewState.value = viewState.value?.copy(visionReasonInput = inputText)
     }
 
     fun toggleVisionPriority(toggle: Boolean){
-        _visionPriorityToggle.value = toggle
+        viewState.value = viewState.value?.copy(visionPriorityToggle = toggle)
     }
 }
+
+data class AddEditVisionViewState (
+        val visionTitleInput: String? = "",
+        val visionDescriptionInput: String? = "",
+        val visionReasonInput: String? = "",
+        val visionPriorityToggle: Boolean? = true
+)

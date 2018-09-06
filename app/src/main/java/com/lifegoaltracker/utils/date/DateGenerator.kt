@@ -5,9 +5,10 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
 import java.util.Calendar
+import javax.inject.Inject
 
 
-class DateGenerator {
+class DateGenerator @Inject constructor() {
     fun getCurrentDate(): Date {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)

@@ -1,9 +1,11 @@
 package com.lifegoaltracker.repository.vision
 
 import android.arch.lifecycle.LiveData
+import android.os.AsyncTask
 import com.lifegoaltracker.model.vision.Vision
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,14 +24,19 @@ open class VisionRepository @Inject constructor(private val visionDao: VisionDao
     }
 
     fun addVision(vision : Vision){
-        visionDao.postVision(vision)
+        doAsync {
+            visionDao.postVision(vision)
+        }
     }
 
     fun editVision(vision: Vision){
-        visionDao.updateVision(vision)
+        doAsync {
+            visionDao.updateVision(vision)
+        }
     }
 
     fun removeVision(vision: Vision){
         visionDao.remove(vision)
     }
+
 }

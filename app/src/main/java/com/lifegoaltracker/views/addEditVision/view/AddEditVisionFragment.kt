@@ -20,7 +20,6 @@ import javax.inject.Inject
 class AddEditVisionFragment: Fragment(), Injectable {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
     lateinit var viewModel: AddEditVisionViewModel
     lateinit var binding: FragmentAddEditVisionBinding
 
@@ -43,6 +42,7 @@ class AddEditVisionFragment: Fragment(), Injectable {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_edit_vision, container, false)
         val view = binding.root
         view.button_add_edit_vision_submit.setOnClickListener{
+            viewModel.addVision()
             it.findNavController().navigateUp()
         }
         return view

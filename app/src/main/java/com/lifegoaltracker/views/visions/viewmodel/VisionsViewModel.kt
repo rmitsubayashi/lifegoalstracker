@@ -9,15 +9,7 @@ import javax.inject.Inject
 
 class VisionsViewModel @Inject constructor(private val repository: VisionRepository)
     : ViewModel(){
-    private val visionsList : MutableLiveData<List<Vision>> = MutableLiveData()
-
-    fun fetchVisionsList() : LiveData<List<Vision>> {
-        visionsList.postValue(
-                repository.getVisions().value
-        )
-
-        return visionsList
-    }
+    val visionsList : LiveData<List<Vision>> = repository.getVisions()
 
     fun removeVision(vision: Vision) {
         repository.removeVision(vision)

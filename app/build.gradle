@@ -29,6 +29,9 @@ android {
             testCoverageEnabled true
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 jacoco {

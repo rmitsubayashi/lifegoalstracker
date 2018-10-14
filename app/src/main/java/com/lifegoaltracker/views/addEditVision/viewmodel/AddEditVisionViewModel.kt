@@ -3,6 +3,7 @@ package com.lifegoaltracker.views.addEditVision.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.databinding.Bindable
 import com.lifegoaltracker.model.vision.*
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.vision.VisionRepository
@@ -13,38 +14,46 @@ import javax.inject.Inject
 class AddEditVisionViewModel
 @Inject constructor(private val repository: VisionRepository,
                     private val dateGenerator: DateGenerator): ViewModel() {
-    private val viewState = MutableLiveData<AddEditVisionViewState>()
+    val titleInput = MutableLiveData<String>()
+    val descriptionInput = MutableLiveData<String>()
+    val reasonInput = MutableLiveData<String>()
+    val priorityToggle = MutableLiveData<Boolean>()
+
     private val _inputErrorMessage = MutableLiveData<String>()
-    val inputErrorMessage =
-            _inputErrorMessage as LiveData<String>
+    val inputErrorMessage: LiveData<String>
+        get() = _inputErrorMessage
 
     private var currentlySetVision: Vision? = null
 
     fun setCurrentVision(vision: Vision){
-        viewState.value = AddEditVisionViewState(
-                vision.userFields.title,
-                vision.userFields.description,
-                vision.userFields.reason,
-                PriorityConverter().getBoolean(
-                        vision.userFields.priority
-                )
-        )
+        //if we already have set a vision,
+        //we should keep the currently set version
+        //as the latest UI state
+        if (currentlySetVision?.id == vision.id){
+            return
+        }
+        titleInput.value = vision.userFields.title
+        descriptionInput.value = vision.userFields.description
+        reasonInput.value = vision.userFields.reason
+        priorityToggle.value =
+            PriorityConverter().getBoolean(
+                    vision.userFields.priority
+            )
 
         currentlySetVision = vision.copy()
     }
 
     fun addVision(){
-        val currentViewState = viewState.value
-
-        if (currentViewState?.visionTitleInput == null){
+        val titleInput = titleInput.value
+        if (titleInput == null){
             _inputErrorMessage.value = "タイトルを入力してください"
             return
         }
-        val priority = PriorityConverter().getPriority(currentViewState.visionPriorityToggle)
+        val priority = PriorityConverter().getPriority(priorityToggle.value)
         val visionUserFields = VisionUserFields(
-                currentViewState.visionTitleInput,
-                currentViewState.visionDescriptionInput,
-                currentViewState.visionReasonInput,
+                titleInput,
+                descriptionInput.value,
+                reasonInput.value,
                 //low priority is less obtrusive to the user than high priority
                 priority ?: Priority.LOW
         )
@@ -66,34 +75,4 @@ class AddEditVisionViewModel
             repository.addVision(newVision)
         }
     }
-
-    fun getViewState(): LiveData<AddEditVisionViewState>{
-        if (viewState.value == null){
-            viewState.value = AddEditVisionViewState()
-        }
-        return viewState
-    }
-
-    fun setVisionTitle(inputText: String){
-        viewState.value = viewState.value?.copy(visionTitleInput = inputText)
-    }
-
-    fun setVisionDescription(inputText: String){
-        viewState.value = viewState.value?.copy(visionDescriptionInput = inputText)
-    }
-
-    fun setVisionReason(inputText: String){
-        viewState.value = viewState.value?.copy(visionReasonInput = inputText)
-    }
-
-    fun toggleVisionPriority(toggle: Boolean){
-        viewState.value = viewState.value?.copy(visionPriorityToggle = toggle)
-    }
 }
-
-data class AddEditVisionViewState (
-        val visionTitleInput: String? = "",
-        val visionDescriptionInput: String? = "",
-        val visionReasonInput: String? = "",
-        val visionPriorityToggle: Boolean? = true
-)

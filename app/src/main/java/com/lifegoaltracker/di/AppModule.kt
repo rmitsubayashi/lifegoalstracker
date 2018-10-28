@@ -3,6 +3,7 @@ package com.lifegoaltracker.di
 import android.app.Application
 import android.arch.persistence.room.Room
 import com.lifegoaltracker.repository.Database
+import com.lifegoaltracker.repository.goal.GoalDao
 import com.lifegoaltracker.repository.vision.VisionDao
 import dagger.Module
 import dagger.Provides
@@ -23,5 +24,11 @@ class AppModule {
     @Provides
     fun provideVisionDao(database: Database): VisionDao {
         return database.visionDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGoalDao(database: Database): GoalDao {
+        return database.goalDao()
     }
 }

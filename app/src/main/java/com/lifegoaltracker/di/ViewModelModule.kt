@@ -3,6 +3,7 @@ package com.lifegoaltracker.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.lifegoaltracker.views.addEditVision.viewmodel.AddEditVisionViewModel
+import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
 import com.lifegoaltracker.views.visions.viewmodel.VisionsViewModel
 import dagger.Binds
 import dagger.Module
@@ -19,6 +20,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(VisionsViewModel::class)
     abstract fun bindVisionsViewModel(vm: VisionsViewModel): ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(VisionDetailsViewModel::class)
+    abstract fun bindVisionDetailsViewModel(vm: VisionDetailsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

@@ -14,7 +14,7 @@ class DateGenerator @Inject constructor() {
         val year = calendar.get(Calendar.YEAR)
         //+1 since JANUARY is 0
         val month = calendar.get(Calendar.MONTH)+1
-        val week = calendar.get(Calendar.WEEK_OF_MONTH)+1
+        val week = calendar.get(Calendar.WEEK_OF_MONTH)
         return Date(Year(year), Month.valueOf(month), WeekOfMonth.valueOf(week))
     }
 

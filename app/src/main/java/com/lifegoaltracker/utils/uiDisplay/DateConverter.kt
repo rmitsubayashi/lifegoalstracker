@@ -5,6 +5,8 @@ import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 
 //for displaying dates to the user
 class DateConverter {
+    //we don't have the cheat day here because
+    // we don't want the user to select it
     private val weeks = Mapper(listOf(
             Pair(WeekOfMonth.WEEK_ONE, "1週目"),
             Pair(WeekOfMonth.WEEK_TWO, "2週目"),

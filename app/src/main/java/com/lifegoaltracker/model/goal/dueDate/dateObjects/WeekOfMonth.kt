@@ -5,8 +5,10 @@ enum class WeekOfMonth(val weekValue: Int) {
     WEEK_TWO(2),
     WEEK_THREE(3),
     WEEK_FOUR(4),
+    //cheat days are any days past Week 4
+    CHEAT_DAY(5),
     //when sorting this should be last
-    ANY(5);
+    ANY(6);
 
     //so we can store the enum as Ints
     // and grab them back as Ints

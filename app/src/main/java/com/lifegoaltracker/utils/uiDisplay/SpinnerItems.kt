@@ -9,18 +9,18 @@ class SpinnerItems () {
         setList(list, defaultValue)
     }
 
-    fun selectItem(item: String){
+    fun selectItem(item: Any){
         if (list == null){
             //wait until the list has been initialized.
             //this occurs when we get the list/item
             // asynchronously
-            tempSelectedItem = item
+            tempSelectedItem = item as String
             return
         }
         //the list is mutable, but will never be null again,
         // so manually cast to un-nullable list
         if ((list as List<String>).contains(item)) {
-            selectedItem = item
+            selectedItem = item as String
         }
     }
 
@@ -30,6 +30,10 @@ class SpinnerItems () {
 
     fun getSelectedItem(): String? {
         return selectedItem
+    }
+
+    fun getSelectedItemPosition(): Int {
+        return list?.indexOf(selectedItem) ?: -1
     }
 
     fun setList(list: List<String>, defaultValue: String){

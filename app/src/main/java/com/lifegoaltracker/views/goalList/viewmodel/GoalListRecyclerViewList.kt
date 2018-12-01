@@ -9,7 +9,7 @@ import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 class GoalListRecyclerViewList {
     private val _items: MutableList<GoalListRecyclerViewItem> = mutableListOf()
     val items: List<GoalListRecyclerViewItem>
-        get() = _items
+        get() = _items.toList()
 
     fun set(list: List<Goal>?){
         _items.clear()

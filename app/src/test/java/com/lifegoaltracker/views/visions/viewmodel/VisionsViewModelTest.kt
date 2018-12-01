@@ -39,8 +39,9 @@ class VisionsViewModelTest {
         val visions : MutableLiveData<List<Vision>> = MutableLiveData()
         visions.value = listOf(vision1)
         Mockito.`when`(visionRepository.getVisions()).thenReturn(visions)
-
-        val liveData = viewModel.fetchVisionsList()
+        //since this is a variable, re-initialize so we can properly mock
+        viewModel = VisionsViewModel(visionRepository)
+        val liveData = viewModel.visionsList
         assertEquals(listOf(vision1), liveData.value)
     }
 }

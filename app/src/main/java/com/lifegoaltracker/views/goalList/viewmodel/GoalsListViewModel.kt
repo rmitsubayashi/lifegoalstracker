@@ -10,6 +10,7 @@ import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
+import com.lifegoaltracker.utils.date.DateGenerator
 import com.lifegoaltracker.utils.filter.IFilter
 import com.lifegoaltracker.views.goalList.GoalListLiveDataHelper
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class GoalListViewModel
                         private val visionRepository: VisionRepository,
                         private val goalRepository: GoalRepository,
                         private val liveDataHelper: GoalListLiveDataHelper,
+                        private val dateGenerator: DateGenerator,
                         private val goalListRecyclerViewList: GoalListRecyclerViewList
                         )
     : ViewModel() {
@@ -29,7 +31,7 @@ class GoalListViewModel
 
     fun fetchGoalList() : LiveData<List<GoalListRecyclerViewItem>> {
         goalList.postValue(
-                liveDataHelper.getAllGoalsLiveData(goalRepository).value
+                liveDataHelper.getAllGoalsLiveData(goalRepository, dateGenerator.getCurrentDate()).value
         )
         recyclerViewItems.addSource(goalList) {
             val filteredList = applyFilter()

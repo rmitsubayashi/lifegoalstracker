@@ -61,7 +61,8 @@ class GoalListLiveDataHelperTest {
         )
         val weekLiveData = MutableLiveData<List<Goal>>()
         weekLiveData.value = (listOf(weekGoal))
-        Mockito.`when`(queryHelper.getWeekGoalsQuery()).thenReturn(weekQuery)
+        val date = Date(Year(2018), Month.JANUARY, null)
+        Mockito.`when`(queryHelper.getWeekGoalsQuery(date)).thenReturn(weekQuery)
         Mockito.`when`(repository.getGoals(weekQuery)).thenReturn(weekLiveData)
 
         val monthQuery = GoalQueryParameters(arbitraryDate, arbitraryDate, GoalSpan.ONE_MONTH)
@@ -75,18 +76,18 @@ class GoalListLiveDataHelperTest {
         )
         val monthLiveData = MutableLiveData<List<Goal>>()
         monthLiveData.value = (listOf(monthGoal))
-        Mockito.`when`(queryHelper.getMonthGoalsQuery()).thenReturn(monthQuery)
+        Mockito.`when`(queryHelper.getMonthGoalsQuery(date)).thenReturn(monthQuery)
         Mockito.`when`(repository.getGoals(monthQuery)).thenReturn(monthLiveData)
 
         val threeMonthQuery = GoalQueryParameters(arbitraryDate, arbitraryDate, GoalSpan.THREE_MONTHS)
-        Mockito.`when`(queryHelper.getThreeMonthGoalsQuery()).thenReturn(threeMonthQuery)
+        Mockito.`when`(queryHelper.getThreeMonthGoalsQuery(date)).thenReturn(threeMonthQuery)
         Mockito.`when`(repository.getGoals(threeMonthQuery)).thenReturn(MutableLiveData<List<Goal>>())
 
         val yearQuery = GoalQueryParameters(arbitraryDate, arbitraryDate, GoalSpan.ONE_YEAR)
-        Mockito.`when`(queryHelper.getYearGoalsQuery()).thenReturn(yearQuery)
+        Mockito.`when`(queryHelper.getYearGoalsQuery(date)).thenReturn(yearQuery)
         Mockito.`when`(repository.getGoals(yearQuery)).thenReturn(MutableLiveData<List<Goal>>())
 
-        val liveData = goalListLiveDataHelper.getAllGoalsLiveData(repository)
+        val liveData = goalListLiveDataHelper.getAllGoalsLiveData(repository, date)
         liveData.observeForever(observer)
         assertTrue(liveData.value!! == listOf(weekGoal, monthGoal))
     }

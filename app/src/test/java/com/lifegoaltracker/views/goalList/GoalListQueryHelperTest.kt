@@ -13,43 +13,43 @@ import org.junit.Test
 class GoalListQueryHelperTest {
     private lateinit var goalDateRange: GoalDateRange
     private lateinit var goalListQueryHelper: GoalListQueryHelper
+    private val date = Date(Year(2018), Month.JANUARY, null)
     
     @Before
     fun setup(){
-        goalDateRange = GoalDateRange(Date(
-                Year(2018),Month.JULY, WeekOfMonth.WEEK_ONE
-        ))
+        goalDateRange = GoalDateRange()
         goalListQueryHelper = GoalListQueryHelper(goalDateRange)
     }
 
     @Test
     fun week(){
-        val query = goalListQueryHelper.getWeekGoalsQuery()
-        assertEquals(GoalQueryParameters(goalDateRange.getWeekFrom(), goalDateRange.getWeekTo(),GoalSpan.ONE_WEEK),
+        val query = goalListQueryHelper.getWeekGoalsQuery(date)
+        assertEquals(GoalQueryParameters(goalDateRange.getWeekFrom(date),
+                goalDateRange.getWeekTo(date),GoalSpan.ONE_WEEK),
                 query)
     }
     
     @Test
     fun month(){
-        val query = goalListQueryHelper.getMonthGoalsQuery()
-        assertEquals(GoalQueryParameters(goalDateRange.getMonthFrom(),
-                goalDateRange.getMonthTo(), GoalSpan.ONE_MONTH),
+        val query = goalListQueryHelper.getMonthGoalsQuery(date)
+        assertEquals(GoalQueryParameters(goalDateRange.getMonthFrom(date),
+                goalDateRange.getMonthTo(date), GoalSpan.ONE_MONTH),
                 query)
     }
 
     @Test
     fun threeMonths(){
-        val query = goalListQueryHelper.getThreeMonthGoalsQuery()
-        assertEquals(GoalQueryParameters(goalDateRange.getThreeMonthsFrom(),
-                goalDateRange.getThreeMonthsTo(), GoalSpan.THREE_MONTHS),
+        val query = goalListQueryHelper.getThreeMonthGoalsQuery(date)
+        assertEquals(GoalQueryParameters(goalDateRange.getThreeMonthsFrom(date),
+                goalDateRange.getThreeMonthsTo(date), GoalSpan.THREE_MONTHS),
                 query)
     }
 
     @Test
     fun year(){
-        val query = goalListQueryHelper.getYearGoalsQuery()
-        assertEquals(GoalQueryParameters(goalDateRange.getYearFrom(),
-                goalDateRange.getYearTo(), GoalSpan.ONE_YEAR),
+        val query = goalListQueryHelper.getYearGoalsQuery(date)
+        assertEquals(GoalQueryParameters(goalDateRange.getYearFrom(date),
+                goalDateRange.getYearTo(date), GoalSpan.ONE_YEAR),
                 query)
     }
 }

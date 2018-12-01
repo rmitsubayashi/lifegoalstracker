@@ -19,6 +19,7 @@ import com.lifegoaltracker.model.vision.*
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
+import com.lifegoaltracker.utils.date.DateGenerator
 import com.lifegoaltracker.views.goalList.GoalListLiveDataHelper
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
 import org.junit.Assert.assertEquals
@@ -30,6 +31,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
@@ -46,6 +48,8 @@ class VisionDetailsViewModelTest {
     lateinit var goalListLiveDataHelper: GoalListLiveDataHelper
     @Mock
     lateinit var observer: Observer<List<VisionDetailsRecyclerViewItem>>
+    @Mock
+    lateinit var dateGenerator: DateGenerator
 
     lateinit var visionDetailsRecyclerViewList: VisionDetailsRecyclerViewList
 
@@ -57,7 +61,7 @@ class VisionDetailsViewModelTest {
         visionDetailsRecyclerViewList = VisionDetailsRecyclerViewList()
         viewModel = VisionDetailsViewModel(
                 visionRepository, goalRepository,
-                goalListLiveDataHelper, visionDetailsRecyclerViewList)
+                goalListLiveDataHelper, dateGenerator, visionDetailsRecyclerViewList)
     }
 
     @Test
@@ -78,13 +82,13 @@ class VisionDetailsViewModelTest {
         )
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
         goalList.value = arrayListOf(goal1)
-        Mockito.`when`(goalListLiveDataHelper.getAllVisionGoalsLiveData(goalRepository, ID(0)))
+        val date = Date(Year(2018), Month.FEBRUARY, WeekOfMonth.WEEK_THREE)
+        Mockito.`when`(goalListLiveDataHelper.getAllVisionGoalsLiveData(goalRepository, ID(0), date))
                 .thenReturn(goalList)
-        viewModel.setVisionID(ID(0))
+        Mockito.`when`(dateGenerator.getCurrentDate()).thenReturn(date)
 
-        val liveData : LiveData<List<VisionDetailsRecyclerViewItem>> = viewModel.fetchRecyclerViewItems()
+        val liveData : LiveData<List<VisionDetailsRecyclerViewItem>> = viewModel.fetchRecyclerViewItems(ID(0))
         liveData.observeForever(observer)
-        assertNotNull(liveData.value)
         val duplicateList = VisionDetailsRecyclerViewList()
         duplicateList.set(vision1, listOf(goal1))
         assertEquals(duplicateList.items, liveData.value)

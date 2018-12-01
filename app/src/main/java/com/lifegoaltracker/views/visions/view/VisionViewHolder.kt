@@ -9,6 +9,7 @@ import com.lifegoaltracker.R
 import com.lifegoaltracker.model.vision.Priority
 import com.lifegoaltracker.model.vision.Vision
 import com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment
+import com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment
 import kotlinx.android.synthetic.main.row_visions_vision.view.*
 
 class VisionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -25,7 +26,7 @@ class VisionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         itemView.layout_row_visions_vision.setOnClickListener{
             view ->
-            val bundle = AddEditVisionFragment.createBundle(vision)
+            val bundle = VisionDetailsFragment.createBundle(vision.id)
             Navigation.findNavController(view).navigate(
                     R.id.action_visionsFragment_to_visionDetailsFragment,
                     bundle

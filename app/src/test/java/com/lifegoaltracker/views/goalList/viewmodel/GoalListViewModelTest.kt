@@ -19,6 +19,7 @@ import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
+import com.lifegoaltracker.utils.date.DateGenerator
 import com.lifegoaltracker.views.goalList.GoalListLiveDataHelper
 import org.junit.Assert.*
 import org.junit.Before
@@ -48,6 +49,10 @@ class GoalListViewModelTest {
     @Mock
     lateinit var observer: Observer<List<GoalListRecyclerViewItem>>
 
+    @Mock
+    lateinit var dateGenerator: DateGenerator
+    private val date = Date(Year(2018), Month.JANUARY, null)
+
     lateinit var viewModel: GoalListViewModel
 
     @Before
@@ -55,7 +60,8 @@ class GoalListViewModelTest {
         MockitoAnnotations.initMocks(this)
         goalListRecyclerViewList = GoalListRecyclerViewList()
         viewModel = GoalListViewModel(visionRepository, goalRepository,
-                goalListLiveDataHelper, goalListRecyclerViewList)
+                goalListLiveDataHelper, dateGenerator, goalListRecyclerViewList)
+        Mockito.`when`(dateGenerator.getCurrentDate()).thenReturn(date)
     }
 
     @Test
@@ -91,7 +97,7 @@ class GoalListViewModelTest {
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
         goalList.value = arrayListOf(goal1, goal2)
 
-        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository))
+        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository, date))
                 .thenReturn(goalList)
         val liveData : LiveData<List<GoalListRecyclerViewItem>> = viewModel.fetchGoalList()
         liveData.observeForever(observer)
@@ -131,7 +137,7 @@ class GoalListViewModelTest {
         )
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
         goalList.value = arrayListOf(goal1, goal2)
-        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository))
+        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository, date))
                 .thenReturn(goalList)
         val liveData : LiveData<List<GoalListRecyclerViewItem>> = viewModel.fetchGoalList()
         liveData.observeForever(observer)
@@ -154,7 +160,7 @@ class GoalListViewModelTest {
     @Test
     fun getList_listNotLoaded_returnsLoading(){
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
-        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository))
+        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository, date))
                 .thenReturn(goalList)
         val liveData : LiveData<List<GoalListRecyclerViewItem>> = viewModel.fetchGoalList()
         liveData.observeForever(observer)
@@ -165,7 +171,7 @@ class GoalListViewModelTest {
     fun filterList_listNotLoaded_returnsLoading(){
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
         assertNull(goalList.value)
-        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository))
+        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository, date))
                 .thenReturn(goalList)
         val liveData : LiveData<List<GoalListRecyclerViewItem>> = viewModel.fetchGoalList()
         liveData.observeForever(observer)
@@ -194,7 +200,7 @@ class GoalListViewModelTest {
         val goalList : MediatorLiveData<List<Goal>> = MediatorLiveData()
         goalList.value = arrayListOf(goal1, goal2)
 
-        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository))
+        Mockito.`when`(goalListLiveDataHelper.getAllGoalsLiveData(goalRepository, date))
                 .thenReturn(goalList)
         val liveData : LiveData<List<GoalListRecyclerViewItem>> = viewModel.fetchGoalList()
         liveData.observeForever(observer)

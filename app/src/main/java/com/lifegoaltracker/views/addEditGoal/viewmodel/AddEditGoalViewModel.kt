@@ -24,44 +24,62 @@ import javax.inject.Inject
 class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalRepository,
                                                private val visionRepository: VisionRepository,
                                                private val dateGenerator: DateGenerator) : ViewModel(){
-    private val visionPicker: MediatorLiveData<SpinnerItems> = MediatorLiveData()
-    private val datePickerEnabledState: MutableLiveData<DatePickerEnabledState> = MutableLiveData()
+    val visions: MediatorLiveData<List<String>> = MediatorLiveData()
+    val visionSelection: MutableLiveData<String> = MutableLiveData()
+    val datePickerEnabledState: MutableLiveData<DatePickerEnabledState> = MutableLiveData()
     //we replace three month and one month visibility
-    private val threeMonthVisibility: MutableLiveData<Boolean> = MutableLiveData()
+    val threeMonthVisibility: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val weekPicker: MutableLiveData<SpinnerItems> = MutableLiveData()
-    private val monthPicker: MutableLiveData<SpinnerItems> = MutableLiveData()
-    private val threeMonthPicker: MutableLiveData<SpinnerItems> = MutableLiveData()
-    private val yearPicker: MutableLiveData<SpinnerItems> = MutableLiveData()
+    val weeks: MutableLiveData<List<String>> = MutableLiveData()
+    val months: MutableLiveData<List<String>> = MutableLiveData()
+    val threeMonths: MutableLiveData<List<String>> = MutableLiveData()
+    val years: MutableLiveData<List<String>> = MutableLiveData()
+    val weekSelection: MutableLiveData<String> = MutableLiveData()
+    val monthSelection: MutableLiveData<String> = MutableLiveData()
+    val threeMonthsSelection: MutableLiveData<String> = MutableLiveData()
+    val yearSelection: MutableLiveData<String> = MutableLiveData()
 
-    private val goalSpanSelection: MutableLiveData<SpinnerItems> = MutableLiveData()
+    val goalSpans: MutableLiveData<List<String>> = MutableLiveData()
+    val goalSpanSelection: MutableLiveData<String> = MutableLiveData()
 
-    private val goalDescriptionInput: MutableLiveData<String> = MutableLiveData()
-    private val goalReasonInput: MutableLiveData<String> = MutableLiveData()
+    val goalDescriptionInput: MutableLiveData<String> = MutableLiveData()
+    val goalReasonInput: MutableLiveData<String> = MutableLiveData()
 
-    private val inputErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val inputErrorMessage: MutableLiveData<String> = MutableLiveData()
 
     private var allVisionNames: List<VisionName>? = null
+    //if the user is editing
     private var currentlySetGoal: Goal? = null
+    //if the user is creating a new vision
+    private var currentlySetVisionID: ID? = null
     
     init {
         val dropdownItems = AddEditGoalDropdownItems()
-        goalSpanSelection.value = SpinnerItems(dropdownItems.getGoalSpans(),
-                GoalSpanConverter().getString(GoalSpan.ONE_WEEK)?:dropdownItems.getGoalSpans()[0]
-        )
-        weekPicker.value = SpinnerItems(dropdownItems.getWeeks(),
-                DateConverter().getWeekString(WeekOfMonth.WEEK_ONE)?:dropdownItems.getWeeks()[0]
-        )
-        monthPicker.value = SpinnerItems(dropdownItems.getMonths(),
-                DateConverter().getMonthString(Month.JANUARY)?:dropdownItems.getMonths()[0]
-        )
-        threeMonthPicker.value = SpinnerItems(dropdownItems.getThreeMonths(),
-                DateConverter().getThreeMonthString(Month.MARCH)?:dropdownItems.getThreeMonths()[0]
-        )
-        yearPicker.value = SpinnerItems(dropdownItems.getYears(),
-                dropdownItems.getYears()[0]
-        )
-        visionPicker.value = SpinnerItems()
+        goalSpans.value = dropdownItems.getGoalSpans()
+        goalSpanSelection.value = GoalSpanConverter().getString(GoalSpan.ONE_WEEK)
+        weeks.value = dropdownItems.getWeeks()
+        weekSelection.value = DateConverter().getWeekString(WeekOfMonth.WEEK_ONE)
+        months.value = dropdownItems.getMonths()
+        monthSelection.value = DateConverter().getMonthString(Month.JANUARY)
+        threeMonths.value = dropdownItems.getThreeMonths()
+        threeMonthsSelection.value = DateConverter().getThreeMonthString(Month.MARCH)
+        years.value = dropdownItems.getYears()
+        yearSelection.value = dropdownItems.getYears()[0]
+        visions.value = emptyList()
+        visionSelection.value = ""
+        fetchVisionNames()
+    }
+
+    fun setCurrentVision(visionID: ID){
+        this.currentlySetVisionID = visionID
+        allVisionNames?.let{
+            for (visionName in it){
+                if (visionName.id === currentlySetVisionID){
+                    visionSelection.value = visionName.title
+                    break
+                }
+            }
+        }
     }
 
     //if the user is editing a goal, we should set that as the preset value
@@ -73,32 +91,32 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
         val dateConverter = DateConverter()
         if (date.week != null) {
             dateConverter.getWeekString(date.week)?.let {
-                weekPicker.value?.selectItem(it)
+                weekSelection.value =it
             }
 
         }
         if (date.month != null) {
             dateConverter.getMonthString(date.month)?.let {
-                monthPicker.value?.selectItem(it)
+                monthSelection.value = it
             }
             if (goal.userFields.dueDate.span == GoalSpan.THREE_MONTHS) {
                 dateConverter.getThreeMonthString(date.month)?.let {
-                    threeMonthPicker.value?.selectItem(it)
+                    threeMonthsSelection.value = it
                 }
             }
         }
         //don't need null checking because all dates have a year value
-        yearPicker.value?.selectItem(date.year.yearValue.toString())
+        yearSelection.value = date.year.yearValue.toString()
 
-        toggleGoalSpanSelection(GoalSpanConverter().getString(goal.userFields.dueDate.span)!!)
+        toggleGoalSpanVisibility(GoalSpanConverter().getString(goal.userFields.dueDate.span)!!)
 
-        //since we only hav a reference to the vision ID,
+        //since we only have a reference to the vision ID,
         // we need to wait until we get all the user's vision names.
         allVisionNames?.let{
             for (visionName in it){
                 if (goal.properties.visionID == visionName.id){
-                    visionPicker.value?.selectItem(visionName.title)
-                    return
+                    visionSelection.value = visionName.title
+                    break
                 }
             }
         } //if vision names aren't loaded yet, set when we load it
@@ -107,14 +125,7 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
     }
 
     fun addGoal(){
-        if (goalDescriptionInput.value == null){
-            inputErrorMessage.value = "タイトルを入力してください"
-            return
-        }
-
-        val inputDueDate = getDueDate()
-        if (!InputDateValidator().isValidInput(inputDueDate)){
-            inputErrorMessage.value = "正しい日にちを選択してください"
+        if (!validateInput()){
             return
         }
 
@@ -126,22 +137,52 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
         val goal = Goal(
                 ID(null),
                 userFields,
-                GoalProperties(dateGenerator.getCurrentTimestamp(), ID(visionPicker.value?.getSelectedItem()?.toLong())),
+                // TODO get selected ID
+                GoalProperties(dateGenerator.getCurrentTimestamp(), ID(1)),
                 GoalStatus(false, false)
         )
         goalRepository.addGoal(goal)
     }
 
-    fun editGoal(goal: Goal){
+    fun editGoal(){
+        if (!validateInput()){
+            return
+        }
+
+        val userFields = GoalUserFields(
+                goalDescriptionInput.value!!,
+                goalReasonInput.value,
+                getDueDate()
+        )
+        val goal = Goal(
+                ID(null),
+                userFields,
+                // TODO get selected ID
+                GoalProperties(dateGenerator.getCurrentTimestamp(), ID(1)),
+                GoalStatus(false, false)
+        )
         goalRepository.updateGoal(goal)
     }
 
-    fun fetchVisionNamePicker(): LiveData<SpinnerItems>{
+    private fun validateInput(): Boolean {
+        if (goalDescriptionInput.value == null){
+            inputErrorMessage.value = "タイトルを入力してください"
+            return false
+        }
+
+        if (!InputDateValidator().isValidInput(getDueDate())){
+            inputErrorMessage.value = "正しい日にちを選択してください"
+            return false
+        }
+
+        return true
+    }
+
+    private fun fetchVisionNames(){
         val visionNames = visionRepository.getVisionNames()
-        visionPicker.addSource(visionNames){
+        visions.addSource(visionNames){
             names -> names?.let{setVisionNames(names)}
         }
-        return visionPicker
     }
 
     private fun setVisionNames(visionNames: List<VisionName>){
@@ -160,15 +201,19 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
                 }
             }
         }
-        visionPicker.value?.setList(visionNameStrings, defaultValue)
+        currentlySetVisionID?.let {
+            for (visionName in visionNames){
+                if (visionName.id == currentlySetVisionID){
+                    defaultValue = visionName.title
+                    break
+                }
+            }
+        }
+        visions.value = visionNameStrings
+        visionSelection.value = defaultValue
     }
 
-    fun getGoalSpanSelection(): LiveData<SpinnerItems> {
-        return goalSpanSelection
-    }
-
-    fun toggleGoalSpanSelection(displayedText: String){
-        goalSpanSelection.value?.selectItem(displayedText)
+    fun toggleGoalSpanVisibility(displayedText: String){
         val span = GoalSpanConverter().getSpan(displayedText)
         if (span == null){
             inputErrorMessage.value = "不正な値が入力されました"
@@ -179,72 +224,24 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
                 span == GoalSpan.THREE_MONTHS
     }
 
-    fun getWeekPicker(): LiveData<SpinnerItems>{
-        return weekPicker
-    }
-
-    fun toggleWeekPicker(displayedText: String){
-        weekPicker.value?.selectItem(displayedText)
-    }
-
-    fun getMonthPicker(): LiveData<SpinnerItems>{
-        return monthPicker
-    }
-
-    fun toggleMonthPicker(displayedText: String){
-        monthPicker.value?.selectItem(displayedText)
-    }
-
-    fun getThreeMonthPicker(): LiveData<SpinnerItems>{
-        return threeMonthPicker
-    }
-
-    fun toggleThreeMonthPicker(displayedText: String){
-        threeMonthPicker.value?.selectItem(displayedText)
-    }
-
-    fun getYearPicker(): LiveData<SpinnerItems>{
-        return yearPicker
-    }
-
-    fun toggleYearPicker(displayedText: String){
-        yearPicker.value?.selectItem(displayedText)
-    }
-
-    fun getGoalDescriptionInput(): LiveData<String>{
-        return goalDescriptionInput
-    }
-
-    fun setGoalDescriptionInput(inputText: String){
-        goalDescriptionInput.value = inputText
-    }
-
-    fun getGoalReasonInput(): LiveData<String>{
-        return goalReasonInput
-    }
-
-    fun setGoalReasonInput(inputText: String){
-        goalReasonInput.value = inputText
-    }
-
     private fun getDueDate(): DueDate{
-        val span = GoalSpanConverter().getSpan(goalSpanSelection.value?.getSelectedItem()!!)
+        val span = GoalSpanConverter().getSpan(goalSpanSelection.value!!)
                 as GoalSpan
         val dateConverter = DateConverter()
         return DueDate(
                 Date(
-                        Year(yearPicker.value?.getSelectedItem()!!.toInt()),
+                        Year(yearSelection.value!!.toInt()),
                         when (span){
                             GoalSpan.THREE_MONTHS ->
-                                dateConverter.getThreeMonth(threeMonthPicker.value?.getSelectedItem())
+                                dateConverter.getThreeMonth(threeMonthsSelection.value)
                             GoalSpan.ONE_YEAR ->
                                 null
                             else ->
-                                dateConverter.getMonth(monthPicker.value?.getSelectedItem())
+                                dateConverter.getMonth(monthSelection.value)
                         },
                         when (span){
                             GoalSpan.ONE_WEEK ->
-                                dateConverter.getWeek(weekPicker.value?.getSelectedItem())
+                                dateConverter.getWeek(weekSelection.value)
                             else ->
                                 null
                         }

@@ -1,89 +1,63 @@
 package com.lifegoaltracker.views.visionDetails.view
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.lifegoaltracker.R
-import com.lifegoaltracker.model.goal.Goal
-import com.lifegoaltracker.model.goal.GoalProperties
-import com.lifegoaltracker.model.goal.GoalStatus
-import com.lifegoaltracker.model.goal.GoalUserFields
-import com.lifegoaltracker.model.goal.dueDate.DueDate
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
-import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
+import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.repository.ID
-import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsRecyclerViewItem
-import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsRecyclerViewItemType
+import com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment
+import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_vision_details.view.*
+import javax.inject.Inject
 
-class VisionDetailsFragment: Fragment() {
+class VisionDetailsFragment: Fragment(), Injectable {
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    lateinit var viewModel: VisionDetailsViewModel
+    lateinit var adapter: VisionDetailsAdapter
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, factory)
+                .get(VisionDetailsViewModel::class.java)
+        arguments?.getSerializable("visionID")?.let {
+            fetchRecyclerViewItems(it as ID)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vision_details, container, false)
-        val adapter = VisionDetailsAdapter()
-        adapter.setItems(
-                listOf(
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION, null, "description"
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.VISION_REASON, null, "reason"
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.HEADER, null, "header"
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.GOAL,
-                                Goal(ID(0),
-                                        GoalUserFields("desc",
-                                                "reason",
-                                                DueDate(Date(Year(2018), Month.JULY, WeekOfMonth.WEEK_TWO), GoalSpan.ONE_YEAR)
-                                        ),
-                                        GoalProperties(0, ID(0)),
-                                        GoalStatus()
-                                ), null
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.GOAL,
-                                Goal(ID(0),
-                                        GoalUserFields("desc2",
-                                                "reason",
-                                                DueDate(Date(Year(2018), Month.JULY, WeekOfMonth.WEEK_TWO), GoalSpan.ONE_YEAR)
-                                        ),
-                                        GoalProperties(0, ID(0)),
-                                        GoalStatus()
-                                ), null
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.HEADER, null, "header2"
-                        ),
-                        VisionDetailsRecyclerViewItem(
-                                VisionDetailsRecyclerViewItemType.GOAL,
-                                Goal(ID(0),
-                                        GoalUserFields("desc3",
-                                                "reason",
-                                                DueDate(Date(Year(2018), Month.JULY, WeekOfMonth.WEEK_TWO), GoalSpan.ONE_YEAR)
-                                        ),
-                                        GoalProperties(0, ID(0)),
-                                        GoalStatus()
-                                ), null
-                        )
-                )
-        )
+        adapter = VisionDetailsAdapter()
         view.recyclerview_vision_details.adapter = adapter
         view.recyclerview_vision_details.layoutManager = LinearLayoutManager(context)
 
         view.fab_vision_details.setOnClickListener{
-            it.findNavController().navigate(R.id.action_visionDetailsFragment_to_addEditGoalFragment)
+            val visionID = arguments?.getSerializable("visionID") as ID
+            val bundle = AddEditGoalFragment.createBundle(visionID)
+            it.findNavController().navigate(R.id.action_visionDetailsFragment_to_addEditGoalFragment, bundle)
         }
 
         return view
+    }
+
+    private fun fetchRecyclerViewItems(visionID: ID){
+        viewModel.fetchRecyclerViewItems(visionID as ID).observe(
+                this, Observer {
+            list -> Log.d("list",list.toString())
+            list?.let{ adapter.setItems(it) }
+        })
+    }
+
+    companion object {
+        fun createBundle(visionID: ID) = Bundle().apply { putSerializable("visionID", visionID) }
     }
 }

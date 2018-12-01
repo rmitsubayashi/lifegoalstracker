@@ -20,7 +20,7 @@ class GoalListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             GoalListRecyclerViewItemType.HEADER.value ->
                 R.layout.row_goal_list_subheader
             GoalListRecyclerViewItemType.LOADING.value ->
-                R.layout.row_loading
+                R.layout.row_loading_full_screen
             GoalListRecyclerViewItemType.EMPTY.value ->
                 R.layout.row_goal_list_empty
             else ->

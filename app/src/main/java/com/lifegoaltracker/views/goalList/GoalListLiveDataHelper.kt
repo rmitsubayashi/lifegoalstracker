@@ -3,20 +3,23 @@ package com.lifegoaltracker.views.goalList
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import com.lifegoaltracker.model.goal.Goal
+import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
+import javax.inject.Inject
 
-class GoalListLiveDataHelper(private val queryHelper: GoalListQueryHelper) {
-    fun getAllGoalsLiveData(repository: GoalRepository): MediatorLiveData<List<Goal>> {
-        val mediatorLiveData = MediatorLiveData<List<Goal>>()
-        val weekQuery = queryHelper.getWeekGoalsQuery()
+class GoalListLiveDataHelper @Inject constructor(private val queryHelper: GoalListQueryHelper) {
+    fun getAllGoalsLiveData(repository: GoalRepository, date: Date): MediatorLiveData<List<Goal>> {
+        val weekQuery = queryHelper.getWeekGoalsQuery(date)
         val weekLiveData = repository.getGoals(weekQuery)
-        val monthQuery = queryHelper.getMonthGoalsQuery()
+        val monthQuery = queryHelper.getMonthGoalsQuery(date)
         val monthLiveData = repository.getGoals(monthQuery)
-        val threeMonthQuery = queryHelper.getThreeMonthGoalsQuery()
+        val threeMonthQuery = queryHelper.getThreeMonthGoalsQuery(date)
         val threeMonthLiveData = repository.getGoals(threeMonthQuery)
-        val yearQuery = queryHelper.getYearGoalsQuery()
+        val yearQuery = queryHelper.getYearGoalsQuery(date)
         val yearLiveData = repository.getGoals(yearQuery)
+
+        val mediatorLiveData = MediatorLiveData<List<Goal>>()
         mediatorLiveData.addSource(weekLiveData){
             _ -> mediatorLiveData.value=combineLiveData(
                 weekLiveData, monthLiveData, threeMonthLiveData, yearLiveData)
@@ -38,18 +41,18 @@ class GoalListLiveDataHelper(private val queryHelper: GoalListQueryHelper) {
         return mediatorLiveData
     }
 
-    fun getAllVisionGoalsLiveData(repository: GoalRepository, visionID: ID): MediatorLiveData<List<Goal>> {
+    fun getAllVisionGoalsLiveData(repository: GoalRepository, visionID: ID, date: Date): MediatorLiveData<List<Goal>> {
         val mediatorLiveData = MediatorLiveData<List<Goal>>()
-        val weekQuery = queryHelper.getWeekGoalsQuery()
+        val weekQuery = queryHelper.getWeekGoalsQuery(date)
         val weekLiveData = repository.getVisionGoals(weekQuery, visionID)
         mediatorLiveData.addSource(weekLiveData){mediatorLiveData.value=it}
-        val monthQuery = queryHelper.getMonthGoalsQuery()
+        val monthQuery = queryHelper.getMonthGoalsQuery(date)
         val monthLiveData = repository.getVisionGoals(monthQuery, visionID)
         mediatorLiveData.addSource(monthLiveData){mediatorLiveData.value=it}
-        val threeMonthQuery = queryHelper.getThreeMonthGoalsQuery()
+        val threeMonthQuery = queryHelper.getThreeMonthGoalsQuery(date)
         val threeMonthLiveData = repository.getVisionGoals(threeMonthQuery, visionID)
         mediatorLiveData.addSource(threeMonthLiveData){mediatorLiveData.value=it}
-        val yearQuery = queryHelper.getYearGoalsQuery()
+        val yearQuery = queryHelper.getYearGoalsQuery(date)
         val yearLiveData = repository.getVisionGoals(yearQuery, visionID)
         mediatorLiveData.addSource(yearLiveData){mediatorLiveData.value=it}
 

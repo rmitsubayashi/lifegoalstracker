@@ -48,6 +48,9 @@ class VisionDetailsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             VisionDetailsRecyclerViewItemType.HEADER.value -> R.layout.row_vision_details_goal_subheader
             VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION.value -> R.layout.row_vision_details_description
             VisionDetailsRecyclerViewItemType.VISION_REASON.value -> R.layout.row_vision_details_reason
+            VisionDetailsRecyclerViewItemType.GOALS_EMPTY.value -> R.layout.row_goal_list_empty
+            VisionDetailsRecyclerViewItemType.GOALS_LOADING.value -> R.layout.row_loading
+            VisionDetailsRecyclerViewItemType.VISION_LOADING.value -> R.layout.row_loading
             else -> R.layout.row_error
         }
         val itemView = LayoutInflater.from(parent.context)

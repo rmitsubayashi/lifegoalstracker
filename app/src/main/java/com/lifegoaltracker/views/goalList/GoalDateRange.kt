@@ -3,9 +3,10 @@ package com.lifegoaltracker.views.goalList
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
+import javax.inject.Inject
 
-class GoalDateRange(private val date: Date) {
-    fun getWeekFrom(): Date {
+class GoalDateRange @Inject constructor() {
+    fun getWeekFrom(date: Date): Date {
         return Date(
                 date.year,
                 date.month ?: Month.JANUARY,
@@ -13,14 +14,14 @@ class GoalDateRange(private val date: Date) {
         )
     }
 
-    fun getWeekTo(): Date{
+    fun getWeekTo(date: Date): Date{
         return Date(
                 date.year,
                 date.month ?: Month.DECEMBER,
                 WeekOfMonth.ANY)
     }
 
-    fun getMonthFrom(): Date {
+    fun getMonthFrom(date: Date): Date {
         return Date(
                 date.year,
                 date.month ?: Month.JANUARY,
@@ -28,7 +29,7 @@ class GoalDateRange(private val date: Date) {
         )
     }
 
-    fun getMonthTo(): Date {
+    fun getMonthTo(date: Date): Date {
         return Date(
                 date.year,
                 date.month ?: Month.DECEMBER,
@@ -36,7 +37,7 @@ class GoalDateRange(private val date: Date) {
         )
     }
 
-    fun getThreeMonthsFrom(): Date {
+    fun getThreeMonthsFrom(date: Date): Date {
         val month = if (date.month == null){
             Month.JANUARY
         }else {
@@ -56,7 +57,7 @@ class GoalDateRange(private val date: Date) {
         )
     }
 
-    fun getThreeMonthsTo(): Date {
+    fun getThreeMonthsTo(date: Date): Date {
         val month = if (date.month == null){
             Month.DECEMBER
         }else {
@@ -76,14 +77,14 @@ class GoalDateRange(private val date: Date) {
         )
     }
 
-    fun getYearFrom(): Date{
+    fun getYearFrom(date: Date): Date{
         return Date(
                 date.year,
                 null,
                 null)
     }
 
-    fun getYearTo(): Date{
+    fun getYearTo(date: Date): Date{
         return Date(
                 date.year,
                 null,

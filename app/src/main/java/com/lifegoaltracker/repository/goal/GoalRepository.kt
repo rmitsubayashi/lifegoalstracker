@@ -3,6 +3,7 @@ package com.lifegoaltracker.repository.goal
 import android.arch.lifecycle.LiveData
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.repository.ID
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,10 +24,14 @@ class GoalRepository @Inject constructor(private val goalDao: GoalDao) {
     }
 
     fun addGoal(goal: Goal) {
-        goalDao.postGoal(goal)
+        doAsync {
+            goalDao.postGoal(goal)
+        }
     }
 
     fun updateGoal(goal: Goal){
-        goalDao.updateGoal(goal)
+        doAsync {
+            goalDao.updateGoal(goal)
+        }
     }
 }

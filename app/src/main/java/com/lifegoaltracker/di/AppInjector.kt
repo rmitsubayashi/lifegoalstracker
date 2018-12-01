@@ -2,6 +2,7 @@ package com.lifegoaltracker.di
 
 import android.app.Activity
 import android.app.Application
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
@@ -13,8 +14,9 @@ import dagger.android.support.HasSupportFragmentInjector
 
 object AppInjector {
     fun init(application: MyApplication){
-        DaggerAppComponent.builder().application(application)
-                .build().inject(application)
+        val applicationComponent = DaggerAppComponent.builder().application(application)
+                .build()
+        applicationComponent.inject(application)
         application
                 .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -45,6 +47,10 @@ object AppInjector {
 
                     }
                 })
+
+        val bindingComponent = DaggerBindingComponent.builder()
+                .build()
+        DataBindingUtil.setDefaultComponent(bindingComponent)
     }
 
     private fun handleActivity(activity: Activity) {

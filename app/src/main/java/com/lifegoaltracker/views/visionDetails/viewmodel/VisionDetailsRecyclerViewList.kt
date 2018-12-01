@@ -5,8 +5,9 @@ import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.utils.sort.goal.GoalSortByDueDate
 import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 import com.lifegoaltracker.model.vision.Vision
+import javax.inject.Inject
 
-class VisionDetailsRecyclerViewList {
+class VisionDetailsRecyclerViewList @Inject constructor() {
     private val _items: MutableList<VisionDetailsRecyclerViewItem> = mutableListOf()
     //the role of this class is to sort the list.
     //no outside class should be able to edit the sorted list
@@ -15,37 +16,47 @@ class VisionDetailsRecyclerViewList {
 
     fun set(vision: Vision?, list: List<Goal>?){
         _items.clear()
+        setVisionSection(vision)
+        setGoalListSection(list)
+    }
+
+    private fun setVisionSection(vision: Vision?){
         if (vision == null){
             _items.add(VisionDetailsRecyclerViewItem(
                     VisionDetailsRecyclerViewItemType.VISION_LOADING,
                     null, null
             ))
-        } else {
-            if (vision.userFields.description.isNullOrBlank()) {
-                _items.add(VisionDetailsRecyclerViewItem(
-                        VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION_EMPTY,
-                        null, null
-                ))
-            } else {
-                val visionDescriptionItem = VisionDetailsRecyclerViewItem(
-                        VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION,
-                        null,
-                        vision.userFields.description)
-                _items.add(visionDescriptionItem)
-            }
-            if (vision.userFields.reason.isNullOrBlank()) {
-                _items.add(VisionDetailsRecyclerViewItem(
-                        VisionDetailsRecyclerViewItemType.VISION_REASON_EMPTY,
-                        null, null
-                ))
-            } else {
-                val visionReasonItem = VisionDetailsRecyclerViewItem(
-                        VisionDetailsRecyclerViewItemType.VISION_REASON,
-                        null,
-                        vision.userFields.reason)
-                _items.add(visionReasonItem)
-            }
+            return
         }
+
+        if (vision.userFields.description.isNullOrBlank()) {
+            _items.add(VisionDetailsRecyclerViewItem(
+                    VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION_EMPTY,
+                    null, null
+            ))
+        } else {
+            val visionDescriptionItem = VisionDetailsRecyclerViewItem(
+                    VisionDetailsRecyclerViewItemType.VISION_DESCRIPTION,
+                    null,
+                    vision.userFields.description)
+            _items.add(visionDescriptionItem)
+        }
+
+        if (vision.userFields.reason.isNullOrBlank()) {
+            _items.add(VisionDetailsRecyclerViewItem(
+                    VisionDetailsRecyclerViewItemType.VISION_REASON_EMPTY,
+                    null, null
+            ))
+        } else {
+            val visionReasonItem = VisionDetailsRecyclerViewItem(
+                    VisionDetailsRecyclerViewItemType.VISION_REASON,
+                    null,
+                    vision.userFields.reason)
+            _items.add(visionReasonItem)
+        }
+    }
+
+    private fun setGoalListSection(list: List<Goal>?){
         if (list == null){
             _items.add(VisionDetailsRecyclerViewItem(
                     VisionDetailsRecyclerViewItemType.GOALS_LOADING,
@@ -69,7 +80,6 @@ class VisionDetailsRecyclerViewList {
         insertHeader(goalItems, GoalSpan.THREE_MONTHS, "3か月")
         insertHeader(goalItems, GoalSpan.ONE_YEAR, "年")
         _items.addAll(goalItems)
-
     }
 
     private fun orderGoals(goals: List<Goal>): List<Goal>{

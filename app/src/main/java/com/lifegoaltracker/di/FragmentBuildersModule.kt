@@ -1,5 +1,6 @@
 package com.lifegoaltracker.di
 
+import com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment
 import com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment
 import com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment
 import com.lifegoaltracker.views.visions.view.VisionsFragment
@@ -15,4 +16,6 @@ abstract class FragmentBuildersModule {
     abstract fun contributeVisionsFragment(): VisionsFragment
     @ContributesAndroidInjector
     abstract fun contributeVisionDetailsFragment(): VisionDetailsFragment
+    @ContributesAndroidInjector
+    abstract fun contributeAddEditGoalFragment(): AddEditGoalFragment
 }

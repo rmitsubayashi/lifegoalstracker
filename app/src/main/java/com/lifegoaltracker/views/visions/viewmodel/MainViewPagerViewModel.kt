@@ -7,7 +7,7 @@ import com.lifegoaltracker.model.vision.Vision
 import com.lifegoaltracker.repository.vision.VisionRepository
 import javax.inject.Inject
 
-class VisionsViewModel @Inject constructor(private val repository: VisionRepository)
+class MainViewPagerViewModel @Inject constructor(private val repository: VisionRepository)
     : ViewModel(){
     val visionsList : LiveData<List<Vision>> = repository.getVisions()
 

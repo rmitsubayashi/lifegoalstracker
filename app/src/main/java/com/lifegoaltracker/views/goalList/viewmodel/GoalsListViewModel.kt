@@ -5,6 +5,7 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.lifegoaltracker.model.goal.Goal
+import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.utils.filter.goal.GoalFilterByVision
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
@@ -31,7 +32,9 @@ class GoalListViewModel
 
     fun fetchGoalList() : LiveData<List<GoalListRecyclerViewItem>> {
         goalList.postValue(
-                liveDataHelper.getAllGoalsLiveData(goalRepository, dateGenerator.getCurrentDate()).value
+                liveDataHelper.getGoalsLiveData(goalRepository, dateGenerator.getCurrentDate(),
+                        listOf(GoalSpan.ONE_WEEK, GoalSpan.ONE_MONTH, GoalSpan.THREE_MONTHS, GoalSpan.ONE_YEAR))
+                        .value
         )
         recyclerViewItems.addSource(goalList) {
             val filteredList = applyFilter()

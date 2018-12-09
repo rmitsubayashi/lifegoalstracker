@@ -5,38 +5,36 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lifegoaltracker.R
 import com.lifegoaltracker.di.Injectable
-import com.lifegoaltracker.views.addEditVision.viewmodel.AddEditVisionViewModel
-import com.lifegoaltracker.views.visions.viewmodel.VisionsViewModel
-import kotlinx.android.synthetic.main.fragment_visions.view.*
+import com.lifegoaltracker.views.visions.viewmodel.MainViewPagerViewModel
+import kotlinx.android.synthetic.main.fragment_main_view_pager.view.*
 import javax.inject.Inject
 
-class VisionsFragment: Fragment(), Injectable {
-    private lateinit var adapter: VisionsAdapter
+class MainViewPagerFragment: Fragment(), Injectable {
+    private lateinit var adapter: MainViewPagerAdapter
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var viewModel: VisionsViewModel
+    lateinit var viewModel: MainViewPagerViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory)
-                .get(VisionsViewModel::class.java)
+                .get(MainViewPagerViewModel::class.java)
         viewModel.visionsList.observe(this, Observer {
-            list -> list?.let{adapter.setVisions(it)}
+            it?.let{ list ->
+                adapter.setVisions(list) }
         })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_visions, container, false)
-        adapter = VisionsAdapter()
-        view.recyclerview_visions.adapter = adapter
-        view.recyclerview_visions.layoutManager = LinearLayoutManager(context)
-
+        val view = inflater.inflate(R.layout.fragment_main_view_pager, container, false)
+        val viewPager = view.fragment_main_view_pager
+        adapter = MainViewPagerAdapter(childFragmentManager)
+        viewPager.adapter = adapter
         return view
     }
 }

@@ -3,8 +3,16 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/visionsFragment">
-
+            app:startDestination="@id/mainViewPagerFragment">
+    <fragment
+        android:id="@+id/mainViewPagerFragment"
+        android:name="com.lifegoaltracker.views.visions.view.MainViewPagerFragment"
+        android:label="Main"
+        tools:layout="@layout/fragment_main_view_pager">
+        <action
+            android:id="@+id/action_mainViewPagerFragment_to_addEditVisionFragment"
+            app:destination="@id/addEditVisionFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/goalListFragment"
         android:name="com.lifegoaltracker.views.goalList.view.GoalListFragment"
@@ -21,9 +29,9 @@
         tools:layout="@layout/fragment_add_edit_goal"/>
     <fragment
         android:id="@+id/visionsFragment"
-        android:name="com.lifegoaltracker.views.visions.view.VisionsFragment"
+        android:name="com.lifegoaltracker.views.visions.view.VisionFragment"
         android:label="Visions"
-        tools:layout="@layout/fragment_visions">
+        tools:layout="@layout/fragment_vision">
         <action
             android:id="@+id/action_visionsFragment_to_visionDetailsFragment"
             app:destination="@id/visionDetailsFragment"/>
@@ -50,4 +58,9 @@
         android:name="com.lifegoaltracker.views.goalHistory.view.GoalHistoryFragment"
         android:label="History"
         tools:layout="@layout/fragment_goal_history"/>
+    <fragment
+        android:id="@+id/addVisionFragment"
+        android:name="com.lifegoaltracker.views.visions.view.AddVisionFragment"
+        android:label="AddVision"
+        tools:layout="@layout/fragment_add_vision"/>
 </navigation>

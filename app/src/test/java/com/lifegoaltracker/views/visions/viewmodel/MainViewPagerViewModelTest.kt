@@ -16,7 +16,7 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class VisionsViewModelTest {
+class MainViewPagerViewModelTest {
     @Rule
     @JvmField
     var instantExecutor = InstantTaskExecutorRule()
@@ -24,12 +24,12 @@ class VisionsViewModelTest {
     @Mock
     lateinit var visionRepository: VisionRepository
 
-    lateinit var viewModel: VisionsViewModel
+    lateinit var viewModel: MainViewPagerViewModel
 
     @Before
     fun setup(){
         MockitoAnnotations.initMocks(this)
-        viewModel = VisionsViewModel(visionRepository)
+        viewModel = MainViewPagerViewModel(visionRepository)
     }
 
     @Test
@@ -40,7 +40,7 @@ class VisionsViewModelTest {
         visions.value = listOf(vision1)
         Mockito.`when`(visionRepository.getVisions()).thenReturn(visions)
         //since this is a variable, re-initialize so we can properly mock
-        viewModel = VisionsViewModel(visionRepository)
+        viewModel = MainViewPagerViewModel(visionRepository)
         val liveData = viewModel.visionsList
         assertEquals(listOf(vision1), liveData.value)
     }

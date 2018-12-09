@@ -4,8 +4,10 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.lifegoaltracker.views.addEditGoal.viewmodel.AddEditGoalViewModel
 import com.lifegoaltracker.views.addEditVision.viewmodel.AddEditVisionViewModel
+import com.lifegoaltracker.views.goalList.viewmodel.GoalListViewModel
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
-import com.lifegoaltracker.views.visions.viewmodel.VisionsViewModel
+import com.lifegoaltracker.views.visionGoals.viewmodel.VisionGoalsViewModel
+import com.lifegoaltracker.views.visions.viewmodel.MainViewPagerViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,8 +21,8 @@ abstract class ViewModelModule {
     abstract fun bindAddEditVisionViewModel(vm: AddEditVisionViewModel): ViewModel
     @Binds
     @IntoMap
-    @ViewModelKey(VisionsViewModel::class)
-    abstract fun bindVisionsViewModel(vm: VisionsViewModel): ViewModel
+    @ViewModelKey(MainViewPagerViewModel::class)
+    abstract fun bindVisionsViewModel(vm: MainViewPagerViewModel): ViewModel
     @Binds
     @IntoMap
     @ViewModelKey(VisionDetailsViewModel::class)
@@ -29,6 +31,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AddEditGoalViewModel::class)
     abstract fun bindAddEditGoalViewModel(vm: AddEditGoalViewModel): ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(VisionGoalsViewModel::class)
+    abstract fun bindVisionGoalsViewModel(vm: VisionGoalsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

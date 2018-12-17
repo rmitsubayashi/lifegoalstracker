@@ -18,6 +18,7 @@ import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 import com.lifegoaltracker.views.visionDetails.view.VisionDetailsGoalViewHolder
+import kotlinx.android.synthetic.main.row_goal_list_goal.view.*
 import kotlinx.android.synthetic.main.row_vision_details_goal_subheader.view.*
 
 class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -57,7 +58,8 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (itemType) {
             HEADER -> holder.itemView.textview_row_vision_details_subheader.text =
                     item.userFields.description
-            ITEM -> (holder as VisionDetailsGoalViewHolder).setGoal(item)
+            ITEM -> holder.itemView.textview_row_goal_list_goal.text =
+                    item.userFields.description
             else -> return
         }
     }

@@ -5,19 +5,15 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import com.lifegoaltracker.R
 import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.repository.ID
-import com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_vision_details.*
-import kotlinx.android.synthetic.main.fragment_vision_details.view.*
 import javax.inject.Inject
 
 class VisionDetailsFragment: Fragment(), Injectable {

@@ -19,6 +19,7 @@ import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 import com.lifegoaltracker.views.visionDetails.view.VisionDetailsGoalViewHolder
 import kotlinx.android.synthetic.main.row_goal_list_goal.view.*
+import kotlinx.android.synthetic.main.row_goal_list_subheader.view.*
 import kotlinx.android.synthetic.main.row_vision_details_goal_subheader.view.*
 
 class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -41,7 +42,7 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val resourceID = when (viewType){
-            HEADER -> R.layout.row_vision_details_goal_subheader
+            HEADER -> R.layout.row_goal_list_subheader
             EMPTY -> R.layout.row_goal_list_empty
             ITEM -> R.layout.row_goal_list_goal
             else -> R.layout.row_error
@@ -56,7 +57,7 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val itemType = getItemViewType(position)
         val item = items[position]
         when (itemType) {
-            HEADER -> holder.itemView.textview_row_vision_details_subheader.text =
+            HEADER -> holder.itemView.textview_row_goal_list_subheader.text =
                     item.userFields.description
             ITEM -> holder.itemView.textview_row_goal_list_goal.text =
                     item.userFields.description

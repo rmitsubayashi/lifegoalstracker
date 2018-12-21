@@ -38,7 +38,7 @@ class VisionGoalsFragment: Fragment(), Injectable {
         viewModel.fetchGoals(visionID).observe(this, Observer {
             it?.let {
                 list ->
-                adapter.setGoals(list)
+                adapter.setGoals(list, visionID)
             }
         })
 

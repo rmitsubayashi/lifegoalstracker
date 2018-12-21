@@ -3,6 +3,7 @@ package com.lifegoaltracker.views.visionDetails.view
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lifegoaltracker.R
+import com.lifegoaltracker.databinding.FragmentVisionDetailsBinding
 import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
@@ -20,7 +22,7 @@ class VisionDetailsFragment: Fragment(), Injectable {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     lateinit var viewModel: VisionDetailsViewModel
-    lateinit var adapter: VisionDetailsAdapter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vision_details, container, false)
@@ -34,6 +36,8 @@ class VisionDetailsFragment: Fragment(), Injectable {
         viewModel.fetchVision(visionID)
         viewModel.vision?.observe(this, Observer {
             textview_vision_details_title.text = it?.userFields?.title
+            textview_vision_details_description.text = it?.userFields?.description
+            textview_vision_details_reason.text = it?.userFields?.reason
         })
     }
 

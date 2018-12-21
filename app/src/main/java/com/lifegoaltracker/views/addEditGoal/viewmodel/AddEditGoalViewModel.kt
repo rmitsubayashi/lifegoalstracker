@@ -82,6 +82,10 @@ class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalR
         }
     }
 
+    fun setCurrentVisionGoalSpan(goalSpan: GoalSpan){
+        goalSpanSelection.value = GoalSpanConverter().getString(goalSpan)
+    }
+
     //if the user is editing a goal, we should set that as the preset value
     fun setCurrentGoal(goal: Goal){
         goalDescriptionInput.value = goal.userFields.description

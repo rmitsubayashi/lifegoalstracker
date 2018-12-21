@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.row_vision_details_goal_subheader.view.*
 class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var items: List<Goal> = listOf()
 
-    fun setGoals(goals: List<Goal>) {
-        items = goals.convertToRecyclerViewItems()
+    fun setGoals(goals: List<Goal>, visionID: ID) {
+        items = goals.convertToRecyclerViewItems(visionID)
         notifyDataSetChanged()
     }
 
@@ -50,15 +50,17 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(resourceID, parent, false)
-        return object: RecyclerView.ViewHolder(itemView){}
+        return when (viewType) {
+            HEADER -> VisionGoalsHeaderViewHolder(itemView)
+            else -> object: RecyclerView.ViewHolder(itemView){}
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemType = getItemViewType(position)
         val item = items[position]
         when (itemType) {
-            HEADER -> holder.itemView.textview_row_goal_list_subheader.text =
-                    item.userFields.description
+            HEADER -> (holder as VisionGoalsHeaderViewHolder).setHeader(item)
             ITEM -> holder.itemView.textview_row_goal_list_goal.text =
                     item.userFields.description
             else -> return

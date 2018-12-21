@@ -1,6 +1,5 @@
 package com.lifegoaltracker.views.visionGoals.view
 
-import android.util.Log
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.GoalProperties
 import com.lifegoaltracker.model.goal.GoalStatus
@@ -14,14 +13,14 @@ import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
 
-fun List<Goal>.convertToRecyclerViewItems(): List<Goal> {
+fun List<Goal>.convertToRecyclerViewItems(visionID: ID = ID(-1)): List<Goal> {
     //want to make this a pure function
     val copy = toMutableList()
     //ID(-2) = empty
     copy.addEmptyGoalSpans()
     val sortedCopy = copy.sortedWith(GoalSortBySpan()).toMutableList()
     //ID(-1) = header
-    sortedCopy.addHeaders()
+    sortedCopy.addHeaders(visionID)
     return sortedCopy
 }
 
@@ -50,14 +49,14 @@ private fun MutableList<Goal>.insertEmptyGoalSpan(span: GoalSpan, text: String){
     )
 }
 
-private fun MutableList<Goal>.addHeaders(){
-    insertHeader(GoalSpan.ONE_MONTH, "This month I will...")
-    insertHeader(GoalSpan.THREE_MONTHS, "In three months I will...")
-    insertHeader(GoalSpan.ONE_YEAR, "This year I will...")
+private fun MutableList<Goal>.addHeaders(visionID: ID){
+    insertHeader(GoalSpan.ONE_MONTH, "This month I will...", visionID)
+    insertHeader(GoalSpan.THREE_MONTHS, "In three months I will...", visionID)
+    insertHeader(GoalSpan.ONE_YEAR, "This year I will...", visionID)
 }
 
 //assumes sorted list
-private fun MutableList<Goal>.insertHeader(span: GoalSpan, text: String){
+private fun MutableList<Goal>.insertHeader(span: GoalSpan, text: String, visionID: ID){
     for ((index, goalItem) in withIndex()){
         if (goalItem.userFields.dueDate.span == span){
             add(index,
@@ -67,7 +66,7 @@ private fun MutableList<Goal>.insertHeader(span: GoalSpan, text: String){
                                     //arbitrary placeholders
                                     DueDate(Date(Year(2019), Month.AUGUST, WeekOfMonth.WEEK_ONE), span)
                             ),
-                            GoalProperties(0, ID(-1)),
+                            GoalProperties(0, visionID),
                             GoalStatus()
                     )
             )

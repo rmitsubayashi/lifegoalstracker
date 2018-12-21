@@ -15,6 +15,7 @@ import com.lifegoaltracker.R
 import com.lifegoaltracker.databinding.FragmentAddEditGoalBinding
 import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.model.goal.Goal
+import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.views.addEditGoal.viewmodel.AddEditGoalViewModel
 import kotlinx.android.synthetic.main.fragment_add_edit_goal.view.*
@@ -41,9 +42,17 @@ class AddEditGoalFragment: Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory)
                 .get(AddEditGoalViewModel::class.java)
+        viewModel.inputErrorMessage.observe(
+                this, Observer { Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show() }
+        )
+
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+
         arguments?.getSerializable("goal").let {
             try {
                 viewModel.setCurrentGoal(it as Goal)
+                return
             } catch (exception: ClassCastException) {
                 //do nothing
             }
@@ -55,16 +64,20 @@ class AddEditGoalFragment: Fragment(), Injectable {
                 //do nothing
             }
         }
-        viewModel.inputErrorMessage.observe(
-                this, Observer { Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show() }
-        )
-
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
+        arguments?.getSerializable("goalSpan").let {
+            try {
+                viewModel.setCurrentVisionGoalSpan(it as GoalSpan)
+            } catch (exception: ClassCastException) {
+                //do nothing
+            }
+        }
     }
 
     companion object {
         fun createBundle(goal: Goal) = Bundle().apply { putSerializable("goal", goal) }
         fun createBundle(visionID: ID) = Bundle().apply { putSerializable("visionID", visionID)}
+        fun createBundle(visionID: ID, span: GoalSpan) =
+                Bundle().apply { putSerializable("goalSpan", span)}
+                        .apply { putSerializable("visionID",visionID) }
     }
 }

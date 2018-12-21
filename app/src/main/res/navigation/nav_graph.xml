@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_mainViewPagerFragment_to_addEditVisionFragment"
             app:destination="@id/addEditVisionFragment"/>
+        <action
+            android:id="@+id/action_mainViewPagerFragment_to_addEditGoalFragment"
+            app:destination="@id/addEditGoalFragment"/>
     </fragment>
     <fragment
         android:id="@+id/goalListFragment"

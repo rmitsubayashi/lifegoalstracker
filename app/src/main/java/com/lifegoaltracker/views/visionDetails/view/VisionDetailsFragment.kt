@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lifegoaltracker.R
-import com.lifegoaltracker.databinding.FragmentVisionDetailsBinding
 import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel

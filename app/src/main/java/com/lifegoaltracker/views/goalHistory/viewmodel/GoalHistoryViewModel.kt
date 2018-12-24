@@ -5,12 +5,12 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.lifegoaltracker.model.goal.Goal
-import com.lifegoaltracker.utils.filter.goal.GoalFilterByVision
 import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
 import com.lifegoaltracker.utils.filter.IFilter
+import com.lifegoaltracker.utils.filter.goal.GoalFilterByVision
 import javax.inject.Inject
 
 class GoalHistoryViewModel

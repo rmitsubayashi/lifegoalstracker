@@ -2,7 +2,6 @@ package com.lifegoaltracker.repository.vision
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.os.AsyncTask
 import com.lifegoaltracker.model.vision.*
 import com.lifegoaltracker.repository.ID
 import org.jetbrains.anko.doAsync

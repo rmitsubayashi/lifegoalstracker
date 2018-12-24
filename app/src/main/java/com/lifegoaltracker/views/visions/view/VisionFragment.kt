@@ -1,7 +1,6 @@
 package com.lifegoaltracker.views.visions.view
 
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +9,6 @@ import android.view.ViewGroup
 import com.lifegoaltracker.R
 import com.lifegoaltracker.di.Injectable
 import com.lifegoaltracker.model.vision.Vision
-import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
-import com.lifegoaltracker.views.visions.viewmodel.MainViewPagerViewModel
 import kotlinx.android.synthetic.main.fragment_vision.view.*
 import javax.inject.Inject
 

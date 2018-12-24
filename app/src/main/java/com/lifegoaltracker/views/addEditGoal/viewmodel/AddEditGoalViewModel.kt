@@ -1,6 +1,8 @@
 package com.lifegoaltracker.views.addEditGoal.viewmodel
 
-import android.arch.lifecycle.*
+import android.arch.lifecycle.MediatorLiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import com.lifegoaltracker.model.goal.Goal
 import com.lifegoaltracker.model.goal.GoalProperties
 import com.lifegoaltracker.model.goal.GoalStatus
@@ -15,10 +17,9 @@ import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
-import com.lifegoaltracker.utils.uiDisplay.DateConverter
 import com.lifegoaltracker.utils.date.DateGenerator
+import com.lifegoaltracker.utils.uiDisplay.DateConverter
 import com.lifegoaltracker.utils.uiDisplay.GoalSpanConverter
-import com.lifegoaltracker.utils.uiDisplay.SpinnerItems
 import javax.inject.Inject
 
 class AddEditGoalViewModel @Inject constructor(private val goalRepository: GoalRepository,

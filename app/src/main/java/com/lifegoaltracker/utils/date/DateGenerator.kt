@@ -1,11 +1,10 @@
 package com.lifegoaltracker.utils.date
 
-import android.util.Log
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 

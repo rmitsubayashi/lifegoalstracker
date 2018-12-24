@@ -19,7 +19,6 @@ import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.views.addEditGoal.viewmodel.AddEditGoalViewModel
 import kotlinx.android.synthetic.main.fragment_add_edit_goal.view.*
-import java.lang.ClassCastException
 import javax.inject.Inject
 
 class AddEditGoalFragment: Fragment(), Injectable {

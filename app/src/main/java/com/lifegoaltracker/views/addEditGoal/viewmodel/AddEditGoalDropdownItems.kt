@@ -3,8 +3,8 @@ package com.lifegoaltracker.views.addEditGoal.viewmodel
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
 import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
 import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
-import com.lifegoaltracker.utils.uiDisplay.DateConverter
 import com.lifegoaltracker.utils.date.DateGenerator
+import com.lifegoaltracker.utils.uiDisplay.DateConverter
 import com.lifegoaltracker.utils.uiDisplay.GoalSpanConverter
 
 class AddEditGoalDropdownItems {

@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.lifegoaltracker.views.addEditGoal.viewmodel.AddEditGoalViewModel
 import com.lifegoaltracker.views.addEditVision.viewmodel.AddEditVisionViewModel
-import com.lifegoaltracker.views.goalList.viewmodel.GoalListViewModel
 import com.lifegoaltracker.views.visionDetails.viewmodel.VisionDetailsViewModel
 import com.lifegoaltracker.views.visionGoals.viewmodel.VisionGoalsViewModel
 import com.lifegoaltracker.views.visions.viewmodel.MainViewPagerViewModel

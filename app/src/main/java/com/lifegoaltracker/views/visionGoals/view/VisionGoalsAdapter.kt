@@ -1,27 +1,12 @@
 package com.lifegoaltracker.views.visionGoals.view
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lifegoaltracker.R
 import com.lifegoaltracker.model.goal.Goal
-import com.lifegoaltracker.model.goal.GoalProperties
-import com.lifegoaltracker.model.goal.GoalStatus
-import com.lifegoaltracker.model.goal.GoalUserFields
-import com.lifegoaltracker.model.goal.dueDate.DueDate
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Date
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Month
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.WeekOfMonth
-import com.lifegoaltracker.model.goal.dueDate.dateObjects.Year
-import com.lifegoaltracker.model.goal.dueDate.span.GoalSpan
 import com.lifegoaltracker.repository.ID
-import com.lifegoaltracker.utils.sort.goal.GoalSortBySpan
-import com.lifegoaltracker.views.visionDetails.view.VisionDetailsGoalViewHolder
-import kotlinx.android.synthetic.main.row_goal_list_goal.view.*
-import kotlinx.android.synthetic.main.row_goal_list_subheader.view.*
-import kotlinx.android.synthetic.main.row_vision_details_goal_subheader.view.*
 
 class VisionGoalsAdapter(private val contextMenuListener: View.OnCreateContextMenuListener):
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {

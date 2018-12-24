@@ -3,7 +3,6 @@ package com.lifegoaltracker.views.addEditVision.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.Bindable
 import com.lifegoaltracker.model.vision.*
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.vision.VisionRepository

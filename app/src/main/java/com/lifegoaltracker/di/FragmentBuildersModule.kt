@@ -3,6 +3,7 @@ package com.lifegoaltracker.di
 import com.lifegoaltracker.views.addEditGoal.view.AddEditGoalFragment
 import com.lifegoaltracker.views.addEditVision.view.AddEditVisionFragment
 import com.lifegoaltracker.views.visionDetails.view.VisionDetailsFragment
+import com.lifegoaltracker.views.visionGoalChecklist.view.VisionGoalChecklistFragment
 import com.lifegoaltracker.views.visionGoals.view.VisionGoalsFragment
 import com.lifegoaltracker.views.visions.view.MainViewPagerFragment
 import com.lifegoaltracker.views.visions.view.VisionFragment
@@ -24,4 +25,6 @@ abstract class FragmentBuildersModule {
     abstract fun contributeMainViewPagerFragment(): MainViewPagerFragment
     @ContributesAndroidInjector
     abstract fun contributeVisionGoalsFragment(): VisionGoalsFragment
+    @ContributesAndroidInjector
+    abstract fun contributeVisionGoalChecklistFragment(): VisionGoalChecklistFragment
 }

@@ -3,6 +3,7 @@ package com.lifegoaltracker.views.visionGoals.view
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.lifegoaltracker.R
 import com.lifegoaltracker.model.goal.Goal
@@ -22,8 +23,10 @@ import kotlinx.android.synthetic.main.row_goal_list_goal.view.*
 import kotlinx.android.synthetic.main.row_goal_list_subheader.view.*
 import kotlinx.android.synthetic.main.row_vision_details_goal_subheader.view.*
 
-class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class VisionGoalsAdapter(private val contextMenuListener: View.OnCreateContextMenuListener):
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var items: List<Goal> = listOf()
+    private var longClickedItem: Goal? = null
 
     fun setGoals(goals: List<Goal>, visionID: ID) {
         items = goals.convertToRecyclerViewItems(visionID)
@@ -40,6 +43,8 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    fun getLongClickedItem(): Goal? = longClickedItem
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val resourceID = when (viewType){
             HEADER -> R.layout.row_goal_list_subheader
@@ -52,6 +57,7 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 .inflate(resourceID, parent, false)
         return when (viewType) {
             HEADER -> VisionGoalsHeaderViewHolder(itemView)
+            ITEM -> VisionGoalsGoalViewHolder(itemView)
             else -> object: RecyclerView.ViewHolder(itemView){}
         }
     }
@@ -61,11 +67,21 @@ class VisionGoalsAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val item = items[position]
         when (itemType) {
             HEADER -> (holder as VisionGoalsHeaderViewHolder).setHeader(item)
-            ITEM -> holder.itemView.textview_row_goal_list_goal.text =
-                    item.userFields.description
+            ITEM -> {
+                (holder as VisionGoalsGoalViewHolder)
+                        .setItem(item, contextMenuListener, getOnLongClickListener(item))
+            }
             else -> return
         }
     }
+
+    private fun getOnLongClickListener(goal: Goal): View.OnLongClickListener =
+        View.OnLongClickListener {
+            longClickedItem = goal
+            //we don't want to block the context menu from showing so return false
+            false
+        }
+
 
     companion object {
         private const val HEADER = 0

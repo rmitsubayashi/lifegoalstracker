@@ -18,6 +18,7 @@ import com.lifegoaltracker.model.vision.VisionName
 import com.lifegoaltracker.repository.ID
 import com.lifegoaltracker.repository.goal.GoalRepository
 import com.lifegoaltracker.repository.vision.VisionRepository
+import com.lifegoaltracker.repository.vision.mockGetVisionNames
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -54,13 +55,9 @@ class GoalHistoryViewModelTest {
     @Test
     fun getVisionNames_shouldGet(){
         val visionName1 = VisionName(ID(1),"vision 1")
-        val visionNames : MutableLiveData<List<VisionName>> = MutableLiveData()
-        visionNames.value = arrayListOf(visionName1)
-
-        Mockito.`when`(visionRepository.getVisionNames()).thenReturn(visionNames)
-        val liveData : LiveData<List<VisionName>> = viewModel.fetchVisionNames()
-        assertNotNull(liveData.value)
-        assertEquals(1, liveData.value?.size)
+        val visionNames = arrayListOf(visionName1)
+        visionRepository.mockGetVisionNames(visionNames)
+        viewModel.assertVisionNamesFetched(visionNames)
     }
 
     @Test
